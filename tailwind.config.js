@@ -10,7 +10,13 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {}
+    extend: {
+
+      margin: {
+        '-75': '-17.5vh',
+      }
+
+    }
   },
   variants: {},
   plugins: [],

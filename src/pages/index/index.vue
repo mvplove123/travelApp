@@ -1,5 +1,21 @@
 <template>
-  <view class="w-screen flex flex-col items-center">
+  <view class="w-screen flex flex-col  h-full">
+
+
+		<view class="w-screen flex flex-col">
+      <view class="w-[100px] h-[100px] bg-black"></view>
+			<view class="w-1/2 h-[100px] bg-red-100"></view>
+      <view class="w-[90px] h-2/3 bg-green-400"></view>
+			<view class="w-1/2 h-2/5 bg-yellow-400"></view>
+		</view>
+		<view class="flex flex-col items-center h-screen">
+			<view class="w-[100px] h-[100px] bg-red-400"></view>
+			<view class="w-1/2 h-[100px] bg-blue-400"></view>
+			<view class="w-1/2 h-2/5 bg-yellow-400"></view>
+
+		</view>
+
+
     <image
       class="w-12 h-12"
       src="../../static/logo.png"
