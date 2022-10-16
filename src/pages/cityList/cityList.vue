@@ -1,7 +1,7 @@
 <template>
-	<view>
+	<view class="w-full h-full flex flex-col">
 		<!-- 搜索 -->
-		<view class="header">
+		<view class="">
 			<u-search v-model="addressName" placeholder="城市/拼音" @change="select" @blur="hide" :animation="false"
 				:showAction="false"></u-search>
 		</view>
@@ -44,8 +44,8 @@
 			</view>
 
 			<!-- 城市列表 -->
-			<view>
-				<u-index-list :index-list="indexList" activeColor="#70A3F3">
+			<view class="">
+				<u-index-list :index-list="indexList" activeColor="#70A3F3" customNavHeight="200">
 					<template v-for="(item, index) in itemArr">
 						<!-- #ifdef APP-NVUE -->
 						<u-index-anchor :text="indexList[index]"></u-index-anchor>
@@ -95,12 +95,9 @@
 
 	export default {
 
-
-
 		data() {
 			return {
 				locationAddress: '北京市',
-				addressName: '',
 				indexList: [],
 				itemArr: [],
 				allCityList: [],

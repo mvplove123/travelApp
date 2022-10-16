@@ -2,7 +2,8 @@ export default {
 	
 	
 	 queryCityList : "travel/r/queryArriveCityList",
-	
+
+	 queryCityInfo : "travel/r/queryCityDetail",
 	
 	web_name: "网站名称", 
 	

@@ -29,10 +29,20 @@
 
 
 						<u-popup :show="chooseCityFlag" @close="closeShowCityList"
-							@open="openShowCityList(cityTitleName)" mode='top'>
-							<view>
-								<chooseCity :cityTitleName="cityTitleName" @pickedCity="change"></chooseCity>
-							</view>
+							@open="openShowCityList(cityTitleName)" mode='right'>
+
+              <scroll-view :scroll-top="0" scroll-y="true" class=" bg-[#EFF0F5] w-screen h-screen  rounded-md mt-8" >
+
+                <!--      <view class="bg-[#EFF0F5] w-full h-[70vh] overflow-y-auto rounded-md	">-->
+
+                <!--             弹窗内容信息-->
+
+                <chooseCity :cityTitleName="cityTitleName" @pickedCity="change"></chooseCity>
+
+              </scroll-view>
+<!--              -->
+<!--							<view class="">-->
+<!--							</view>-->
 						</u-popup>
 
 
@@ -84,9 +94,6 @@
 						<text class="text-l mt-1 font-semibold">查询</text>
 					</u-button>
 				</view>
-
-
-
 
 			</u-form>
 

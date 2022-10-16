@@ -17,12 +17,7 @@ export default {
 		return config.uni_app_web_api_url.replace("api","");
 	},
 	send(options={}){
-        // loading加载
-        uni.showLoading({
-           title: '加载中'
-        });
-        
-        // 拼接路劲，下面的配置文件会提到
+        // 拼接路径，下面的配置文件会提到
 		options.url = config.uni_app_web_api_url + '' + options.url;
         // 请求方式
 		options.method = options.method || "GET";
