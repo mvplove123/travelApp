@@ -131,8 +131,6 @@
 
         <!--      列表展示-->
       </scroll-view>
-
-
     </view>
 
 
@@ -192,7 +190,7 @@ export default {
       showCityInfo: false,
       closeable: true,
       scrollHeight: '',
-      hour: 0
+      hour: 0,
     }
   },
 
