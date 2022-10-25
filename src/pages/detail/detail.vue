@@ -257,10 +257,10 @@ export default {
     },
     getDetailList() {
       let that = this;
-      //
-      // this.departureCityName = that.$Route.query.departureCityName,
-      //     this.departureDate = that.$Route.query.departureDate,
-      //     this.targetCityName = that.$Route.query.targetCityName,
+
+      this.departureCityName = that.$Route.query.departureCityName,
+          this.departureDate = that.$Route.query.departureDate,
+          this.targetCityName = that.$Route.query.targetCityName,
       this.titleName = this.departureCityName + '出发'
 
       let params = {
