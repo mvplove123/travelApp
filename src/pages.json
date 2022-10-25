@@ -3,7 +3,6 @@
     "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
   },
   "pages": [
-
     {
       "path": "pages/homePage/homePage",
       "style": {
@@ -16,7 +15,6 @@
         // "enablePullDownRefresh": false
       }
     },
-
     {
       "path": "pages/detail/detail",
       "style": {
@@ -32,6 +30,9 @@
       }
     },
 
+
+
+
     {
       "path": "pages/detailnew/detailnew",
       "style": {
@@ -39,10 +40,6 @@
         "enablePullDownRefresh": false
       }
     },
-
-
-
-
 
 
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages

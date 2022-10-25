@@ -5,36 +5,43 @@
     <!-- 城市说明 -->
     <view class="w-full h-2/5 flex flex-shrink-0 flex-col bg-cover items-center	rounded-md"
           :style="{ backgroundImage: `url(${cityInfo.cityImg})` }">
+<!--      城市基本信息-->
+      <view class="w-full h-2/3 flex flex-col items-center">
 
-      <view class="w-11/12 h-[10vh] flex flex-row items-baseline">
-        <view class=" mt-8">
-          <text class="text-2xl	font-sans text-white	bg-[#3D4144] bg-opacity-40 rounded">{{
-              cityInfo.cityName
-            }}
-          </text>
-        </view>
+        <!--      城市名称及top景点-->
+        <view class="w-11/12 h-1/2 flex flex-row items-center">
 
-        <!-- 景区列表 -->
-        <view class="  h-auto flex flex-row justify-start mt-2">
-          <view class="" v-for="(sceneryName,index) in cityInfo.sceneryList" :key="index">
-            <text
-                class="text-xs  text-white ml-0.5 pl-0.5 pr-0.5 bg-[#3D4144] bg-opacity-40	">
-              {{ sceneryName }}
+          <view class="flex flex-row w-auto h-1/4  flex-shrink-0	">
+            <text class="text-2xl	font-sans text-white text-center	bg-[#3D4144] bg-opacity-40 rounded">{{
+                cityInfo.cityName
+              }}
             </text>
           </view>
+          <!-- 景区列表 -->
+          <view class=" w-auto h-1/4 flex flex-row  flex-wrap justify-start">
+            <view class="mx-0.5 p-0.5" v-for="(sceneryName,index) in cityInfo.sceneryList" :key="index">
+              <text
+                  class="text-xs  text-white  bg-[#3D4144] bg-opacity-40	rounded">
+                {{ sceneryName }}
+              </text>
+            </view>
+          </view>
+
+        </view>
+
+
+        <!-- 城市描述 -->
+        <view class="w-11/12 h-1/2  flex flex-row bg-gray-600 bg-opacity-40 p-1 rounded	">
+          <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{ cityDetail.cityDesc }}</text>
         </view>
 
       </view>
 
 
-      <!-- 城市描述 -->
-      <view class="w-11/12 h-[5vh]  flex flex-row text-white text-xs  bg-gray-600 bg-opacity-40	">
-        <text> {{ cityDetail.cityDesc }}</text>
-      </view>
     </view>
 
-
-    <view class="w-11/12 h-3/6 flex flex-col rounded-lg	items-center bg-white shadow-md -mt-75">
+<!--    交通信息-->
+    <view class="w-11/12 h-1/2 flex flex-col rounded-lg	items-center bg-white shadow-md -mt-75">
       <view class="flex flex-row w-11/12 h-auto">
         <text class="font-medium mt-2 mb-1">交通信息</text>
       </view>
@@ -76,7 +83,7 @@
     <u-divider></u-divider>
 
     <!-- 热门景点 -->
-    <view class="w-11/12 h-1/3 flex flex-shrink-0 flex-col bg-cover rounded	"
+    <view class="w-11/12 h-1/4 flex flex-shrink-0 flex-col bg-cover rounded	"
           :style="{ backgroundImage: `url(${hotSceneryBgImg})` }">
 
       <view class=" m-2">
@@ -101,6 +108,28 @@
         transform: 'scale(1)'
     }" itemStyle="padding-left: 15px; padding-right: 15px; height: 45px;"
               @click="changeSceneryBackImg"></u-tabs>
+
+      <view class="flex-1	 flex-col w-11/12 h-3/5 justify-start  items-end m-auto">
+
+        <view class="flex flex-col w-full h-3/5 mt-14 ">
+
+          <!--        级别分数-->
+          <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
+            <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5"><text class="text-white  text-xs ">{{sceneryStar}}</text></view>
+            <view class="w-8 h-auto bg-blue-400 rounded"><text class="text-white font-medium text-xs	  ">{{scenerySore}}</text></view>
+
+          </view>
+
+          <view class="w-full h-2/5">
+            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded">{{sceneryDesc}}</text>
+          </view>
+        </view>
+        </view>
+
+
+
+
+
     </view>
 
     <u-divider></u-divider>
@@ -152,6 +181,9 @@ export default {
     return {
       cityDetail: Object,
       hotSceneryBgImg: this.cityInfo.cityImg,
+      sceneryStar:'OA',
+      scenerySore:'0',
+      sceneryDesc:'',
       showScrollbar: true,
       pagingEnabled: false,
       hotSceneryList: [],
@@ -187,6 +219,11 @@ export default {
 
       const sceneryInfo = this.hotSceneryMap.get(index.name)
       this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl ? sceneryInfo.sceneryImgUrl : this.cityInfo.cityImg
+      this.sceneryStar = sceneryInfo.rate
+      this.scenerySore = sceneryInfo.score
+      this.sceneryDesc =sceneryInfo.sceneryDesc
+
+
     },
     changeFoodInfo(foodInfo) {
 
@@ -216,6 +253,9 @@ export default {
           if (this.cityDetail.sceneryInfoList) {
             const sceneryInfo = this.cityDetail.sceneryInfoList[0]
             this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl ? sceneryInfo.sceneryImgUrl : this.cityInfo.cityImg
+            this.sceneryStar = sceneryInfo.rate
+            this.scenerySore = sceneryInfo.score
+            this.sceneryDesc = sceneryInfo.sceneryDesc
             for (let sceneryInfo of this.cityDetail.sceneryInfoList) {
               this.hotSceneryList.push({'name': sceneryInfo.sceneryName})
               this.hotSceneryMap.set(sceneryInfo.sceneryName, sceneryInfo)

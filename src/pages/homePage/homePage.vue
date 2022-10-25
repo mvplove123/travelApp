@@ -16,9 +16,8 @@
 
 
     <!-- 查询栏 u-m-t-30 u-border-radius-big-->
-    <view class="h-[30vh] w-11/12 bg-white rounded-lg m-auto mt-2 shadow-l">
+    <view class="h-[35vh] w-11/12 bg-white rounded-lg m-auto mt-2 shadow-l">
 
-      <u-form class="w-full h-full">
 
         <!-- 第一行 -->
         <view class="flex flex-row justify-between items-center h-[10vh]">
@@ -76,7 +75,7 @@
 <!--            </u-checkbox>-->
 <!--          </u-checkbox-group>-->
 <!--        </view>-->
-        <view class="w-full  h-[10vh]  flex flex-row justify-center items-center">
+        <view class="w-full  h-[15vh]  flex flex-row justify-center items-center">
           <view class=" h-auto  w-11/12 ">
             <u-button size="large" class="" color="#60A5FA" @click="jump">
               <text class="text-l mt-1 font-semibold">查询</text>
@@ -86,7 +85,6 @@
 
 
 
-      </u-form>
 
     </view>
 
@@ -98,14 +96,14 @@
           :style="{ backgroundImage: `url(${cityDetail.cityImg})` }">
 
       <view class="w-11/12 h-1/2 flex flex-row">
-        <view class="w-1/3 h-1/3 mt-8 ">
-          <text class="text-2xl	font-sans text-white	bg-[#3D4144] bg-opacity-40 rounded">{{
+        <view class="w-1/3 h-1/3 mt-8">
+          <text class="text-2xl	font-sans text-white font-bold tracking-normal	bg-[#3D4144] bg-opacity-40 rounded ">{{
               cityDetail.cityName
             }}
           </text>
         </view>
 
-        <!-- 景区列表 -->
+        <!-- 景区天气 -->
         <view class="w-2/3 h-1/3 mt-8  flex flex-row justify-end">
           <text>晴</text>
           <image class="w-5 h-5" src="/static/img/weather/qingtian.png"/>
@@ -113,8 +111,8 @@
         </view>
       </view>
       <!-- 城市描述 -->
-      <view class="w-11/12 h-auto  mt-10 mb-2 flex flex-row text-white text-xs  bg-gray-600 bg-opacity-40 justify-end items-center">
-        <text> {{ cityDetail.cityDesc }}</text>
+      <view class="w-11/12 h-auto   flex flex-row bg-gray-600 bg-opacity-40 justify-end items-center p-1 rounded">
+        <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{ cityDetail.cityDesc }}</text>
       </view>
     </view>
 
@@ -127,7 +125,7 @@
           :style="{ backgroundImage: `url(${hotSceneryBgImg})` }">
 
       <view class=" m-2">
-        <text class="text-2xl	font-sans text-white">热门景点</text>
+        <text class="text-xl	font-sans text-white tracking-normal font-bold bg-[#3D4144] bg-opacity-40 rounded p-0.5">热门景点</text>
       </view>
 
       <!-- 景区列表 -->
@@ -147,13 +145,32 @@
         transform: 'scale(1)'
     }" itemStyle="padding-left: 15px; padding-right: 15px; height: 45px;"
               @click="changeSceneryBackImg"></u-tabs>
+
+
+      <view class="flex-1	 flex-col w-11/12 h-3/5 justify-start  items-end m-auto">
+
+        <view class="flex flex-col w-full h-3/5 mt-14 ">
+
+          <!--        级别分数-->
+          <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
+            <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5"><text class="text-white  text-xs ">{{sceneryStar}}</text></view>
+            <view class="w-8 h-auto bg-blue-400 rounded"><text class="text-white font-medium text-xs	  ">{{scenerySore}}</text></view>
+
+          </view>
+
+          <view class="w-full h-2/5">
+            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded">{{sceneryDesc}}</text>
+          </view>
+        </view>
+      </view>
+
     </view>
 
     <u-divider></u-divider>
     <!-- 当地美食 -->
     <view class="w-11/12 h-[40vh]  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
       <view class=" m-2">
-        <text class="text-xl	font-sans text-[#636363]">当地美食</text>
+        <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地美食</text>
       </view>
 
       <!-- 美食列表 -->
@@ -223,17 +240,9 @@ export default {
           disabled: false
         }
       ],
-      hotCitys: [
-        '杭州',
-        '天津',
-        '北京',
-        '上海',
-        '深圳',
-        '广州',
-        '成都',
-        '重庆',
-        '厦门'
-      ],
+      sceneryStar:'OA',
+      scenerySore:'0',
+      sceneryDesc:'',
       currentCity: '杭州市',
       cityTitleName: '',
       departCityChooseFlag: false,
@@ -399,6 +408,9 @@ export default {
           if (this.cityDetail.sceneryInfoList) {
             const sceneryInfo = this.cityDetail.sceneryInfoList[0]
             this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl
+            this.sceneryStar = sceneryInfo.rate
+            this.scenerySore = sceneryInfo.score
+            this.sceneryDesc = sceneryInfo.sceneryDesc
             for (let sceneryInfo of this.cityDetail.sceneryInfoList) {
               this.hotSceneryList.push({'name': sceneryInfo.sceneryName})
               this.hotSceneryMap.set(sceneryInfo.sceneryName, sceneryInfo)
@@ -422,6 +434,9 @@ export default {
 
       const sceneryInfo = this.hotSceneryMap.get(index.name)
       this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl ? sceneryInfo.sceneryImgUrl : this.cityInfo.cityImg
+      this.sceneryStar = sceneryInfo.rate
+      this.scenerySore = sceneryInfo.score
+      this.sceneryDesc = sceneryInfo.sceneryDesc
     },
     changeFoodInfo(foodInfo) {
 

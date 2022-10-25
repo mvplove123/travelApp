@@ -13,7 +13,11 @@ module.exports = {
     extend: {
 
       margin: {
-        '-75': '-17.5vh',
+        '-75': '-16vh',
+      },
+      fontSize: {
+        'xs-0.25': '.25rem',
+        'xs-0.5': '.5rem',
       }
 
     }
