@@ -4,7 +4,10 @@ export default {
 	 queryCityList : "travel/r/queryArriveCityList",
 
 	 queryCityInfo : "travel/r/queryCityDetail",
-	
+
+	queryCityStationList : "travel/r/queryCityStationList",
+
+
 	web_name: "网站名称", 
 	
 	uni_app_web_url: "https://travelprogrammer.com/", // h5域名PC域名，用于分享图片或者拼接图片时使用，结尾必须加 “/”

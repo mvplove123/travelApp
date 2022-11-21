@@ -158,7 +158,7 @@
 
           </view>
 
-          <view class="w-full h-2/5">
+          <view class="w-full h-2/5 overflow-auto">
             <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded">{{sceneryDesc}}</text>
           </view>
         </view>
@@ -256,6 +256,7 @@ export default {
       cityDetail: Object,
       hotSceneryBgImg: '',
       currentIndex:0,
+      cityStationList:[],
 
 
     };
@@ -268,7 +269,6 @@ export default {
   },
   methods: {
     confirm(e) {
-      console.log(e)
       let date = dayjs()
 
       this.handleTimeForm(e[0])
@@ -278,7 +278,6 @@ export default {
 
     openShowCityList(titleName) {
       this.cityTitleName = titleName
-      console.log(this.cityTitleName)
       this.chooseCityFlag = true;
       if (titleName === '出发城市选择') {
         this.departCityChooseFlag = true
@@ -326,7 +325,8 @@ export default {
         query: {
           "departureCityName": this.departCity,
           "departureDate": this.departDate,
-          "targetCityName": this.targetCity
+          "targetCityName": this.targetCity,
+          "cityStationList":this.cityStationList
         }
       });
     },
@@ -372,11 +372,10 @@ export default {
       }
     },
     init() {
-      console.log("初始化")
-
       this.queryCityInfo('北京市')
-
     },
+
+
 
     queryCityInfo(cityName) {
       this.hotSceneryList=[]
@@ -401,7 +400,6 @@ export default {
         uni.hideLoading()
         uni.stopPullDownRefresh()
         if (res.success == true) {
-          console.log("res",res.data)
           this.cityDetail = res.data
           this.currentIndex=0
 

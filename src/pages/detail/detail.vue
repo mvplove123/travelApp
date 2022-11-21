@@ -85,8 +85,10 @@
                 <!-- 景点，城市描述 -->
 
                 <view class="flex flex-row flex-wrap w-full h-1/5 overflow-hidden">
-                  <view class="flex items-center border border-[#C5EBDE] mx-0.5 my-2 w-auto h-2/3 p-0.5  text-xs text-[#45B47D] " v-for="(sceneryName,index) in item.sceneryList"
-                        :key="index">
+                  <view
+                      class="flex items-center border border-[#C5EBDE] mx-0.5 my-2 w-auto h-2/3 p-0.5  text-xs text-[#45B47D] "
+                      v-for="(sceneryName,index) in item.sceneryList"
+                      :key="index">
                     <text class="">
                       {{ sceneryName }}
                     </text>
@@ -146,7 +148,7 @@
     <!-- 排序栏 -->
     <u-tabbar :value="value6" @change="name => value6 =name" :fixed="true" :placeholder="true"
               :safeAreaInsetBottom="true" :border="true">
-      <u-tabbar-item text="筛选" icon="home"></u-tabbar-item>
+      <u-tabbar-item text="筛选" icon="tags" @click="clickFilterSelect" :badge=badgeCount></u-tabbar-item>
       <u-tabbar-item text="时间" icon="clock"></u-tabbar-item>
       <!-- <u-tabbar-item text="直播" icon="play-right"></u-tabbar-item> -->
       <u-tabbar-item text="我的" icon="account"></u-tabbar-item>
@@ -162,14 +164,33 @@
       </scroll-view>
     </u-popup>
 
+    <!--    筛选弹窗-->
+    <u-popup :show="showFilterSelect" @close="closeFilterSelect" @open="open" mode='bottom' round="50"
+             :closeable="closeable">
+
+      <view class=" bg-[#EFF0F5] w-screen h-[75vh]  rounded-md">
+        <!--             弹窗内容信息-->
+        <filterSelect v-if="showFilterSelect" :filterSelectInfo="filterSelectInfoResult" :departureStationList="cityAllDepartureStations"
+                      @confirmFilterSelect="confirmFilterSelectResult" @closeSpatialQuery3D_="closeSpatialQuery3D"/>
+
+      </view>
+
+    </u-popup>
+
 
   </view>
 </template>
 
 <script>
-import config from "@/common/config.js"; // 配置文件
+import config from "@/common/config.js";
+import filterSelect from '@/components/filterSelect/filterSelect.vue'
 
 export default {
+  components: {
+    filterSelect
+  },
+
+
   data() {
     return {
       isShowSpatialQuery3DPanle: false,
@@ -181,6 +202,7 @@ export default {
       loadStatus: 'loadmore', //loadmore:加载前的状态，loading:加载中的状态，nomore:没有更多的状态
       departureTimeSliceList: [],
       arriveTimeSliceList: [],
+      trainTypes: [],
       departureCityName: '北京市',
       titleName: '',
       departureDate: '2022-09-27',
@@ -195,16 +217,26 @@ export default {
         'hour': 2
       }, {'name': '3小时城市圈', 'hour': 3}, {'name': '4小时城市圈', 'hour': 4}, {'name': '次日达城市圈', 'hour': 24}],
       clickCityInfo: Object,
+      filterSelectInfoResult: {},
       value6: '0',
       showCityInfo: false,
       closeable: true,
+      showFilterSelect: false,
       scrollHeight: '',
       hour: 0,
+      badgeCount: 0,
+
+      departureStations:[],
+      selectDepartureStations: [],
+      // 城市所有车站
+      cityAllDepartureStations:[]
     }
   },
 
   onLoad() {
     this.getDetailList();
+    let that = this;
+    this.queryCityStation(that.$Route.query.departureCityName);
   },
 
   methods: {
@@ -215,6 +247,32 @@ export default {
       this.pageIndex = 1
       this.pageSize = 5
 
+    },
+
+    queryCityStation(cityName){
+      this.cityAllDepartureStations=[]
+      let that = this;
+      let params = {
+        "cityName": cityName,
+      }
+      that.isLoading = true;
+      that.loadStatus = 'loading';
+
+      this.$http.httpGet(config.queryCityStationList,
+          params
+      ).then(res => {
+
+        this.isLoading = false;
+        uni.hideLoading()
+        uni.stopPullDownRefresh()
+        if (res.success == true) {
+          for(let station of res.data){
+            this.cityAllDepartureStations.push({name:station,checked: false})
+          }
+        } else {
+          console.log("请求异常")
+        }
+      });
     },
 
 
@@ -249,7 +307,6 @@ export default {
     // 加载更多
     loadMore() {
 
-      console.log("pageIndex,totalPages", this.pageIndex, this.totalPages, this.loadStatus)
       if (this.pageIndex < this.totalPages) {
         this.pageIndex += 1;
         this.getDetailList();
@@ -258,16 +315,24 @@ export default {
     getDetailList() {
       let that = this;
 
+      // this.departureCityName = '北京市',
+      //     this.departureDate = '2022-09-27',
+      //     this.targetCityName = '不限',
+      //     this.titleName = this.departureCityName + '出发'
+
       this.departureCityName = that.$Route.query.departureCityName,
           this.departureDate = that.$Route.query.departureDate,
           this.targetCityName = that.$Route.query.targetCityName,
-      this.titleName = this.departureCityName + '出发'
+          this.titleName = this.departureCityName + '出发'
 
       let params = {
         "departureCityName": this.departureCityName,
         "departureDate": this.departureDate,
         "targetCityName": this.targetCityName == '不限' ? '' : this.targetCityName,
         "arriveCurrentDay": this.arriveCurrentDay,
+        "departureTimeSliceList": this.departureTimeSliceList,
+        "arriveTimeSliceList": this.arriveTimeSliceList,
+        "stationList": this.departureStations ,
         "pageSize": this.pageSize,
         "pageIndex": this.pageIndex,
         "hour": this.hour
@@ -308,37 +373,78 @@ export default {
 
 
     close() {
-      console.log('close')
       this.showCityInfo = false
 
     },
-    moveHandle() {
-      console.log("阻止底层滑动")
-      return false
-    },
-    //自定义下拉刷新被触发
-    scrollRefresh() {
-      console.log("scrollRefresh")
 
-      if (this.refreshing) return;
-      this.refreshing = true
-      if (!this.triggered) {
-        this.triggered = true
-      }
-      //下拉刷新逻辑
-      this.loadMore()
-      //结束下拉刷新状态
-      setTimeout(() => {
-        this.triggered = false;
-        this._freshing = false;
-      }, 3000)
+    clickFilterSelect() {
+      this.showFilterSelect = true
+    },
+
+    closeFilterSelect() {
+      this.showFilterSelect = false
+
+    },
+    moveHandle() {
+      return false
     },
     //自定义下拉刷新被复位
     onRestore() {
-      console.log("onRestore")
 
       this.triggered = "restore" //需要重置，设置为true app上又会执行刷新
     },
+
+    confirmFilterSelectResult(selectTrainTypes, selectDepartureTimes, selectArriveTimes, selectDepartureStations) {
+
+      this.initQueryData()
+
+      this.trainTypes = []
+      this.departureStations = []
+      this.departureTimeSliceList = []
+      this.arriveTimeSliceList = []
+
+      for (let selectTrainType of selectTrainTypes) {
+        this.trainTypes.push(selectTrainType.name)
+      }
+
+      for (let selectDepartureTime of selectDepartureTimes) {
+        const timeStart = selectDepartureTime.nameSeconds.split("-")[0]
+        const timeEnd = selectDepartureTime.nameSeconds.split("-")[1]
+        let timeSlice = {
+          "timeStart": timeStart,
+          "timeEnd": timeEnd,
+        }
+        this.departureTimeSliceList.push(timeSlice)
+      }
+
+      for (let selectArriveTime of selectArriveTimes) {
+        const timeStart = selectArriveTime.nameSeconds.split("-")[0]
+        const timeEnd = selectArriveTime.nameSeconds.split("-")[1]
+        let timeSlice = {
+          "timeStart": timeStart,
+          "timeEnd": timeEnd,
+        }
+        this.arriveTimeSliceList.push(timeSlice)
+      }
+
+      for (let selectDepartureStation of selectDepartureStations) {
+        this.departureStations.push(selectDepartureStation.name)
+      }
+
+      this.showFilterSelect = false
+      this.badgeCount = this.trainTypes.length + this.departureTimeSliceList.length + this.arriveTimeSliceList.length + this.departureStations.length
+
+
+      this.filterSelectInfoResult = {
+        "selectTrainTypes": selectTrainTypes,
+        "selectDepartureTimes": selectDepartureTimes,
+        "selectArriveTimes":selectArriveTimes,
+        "selectDepartureStations":selectDepartureStations
+      }
+      this.getDetailList()
+
+
+    }
 
   }
 }

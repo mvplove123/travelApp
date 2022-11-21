@@ -120,8 +120,8 @@
 
           </view>
 
-          <view class="w-full h-2/5">
-            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded">{{sceneryDesc}}</text>
+          <view class="w-full h-2/5 overflow-auto">
+            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded ">{{sceneryDesc}}</text>
           </view>
         </view>
         </view>
