@@ -43,10 +43,6 @@
                 @click="queryHourCityList"></u-tabs>
       </view>
 
-
-      <!--      </view>-->
-
-
     </view>
 
     <view class=" bg-[#fff] flex flex-col w-11/12 h-2/3 -mt-7 rounded-t-lg  items-center">
@@ -146,12 +142,11 @@
 
 
     <!-- 排序栏 -->
-    <u-tabbar :value="value6" @change="name => value6 =name" :fixed="true" :placeholder="true"
+    <u-tabbar :value="defaultTabbar" @change="name => defaultTabbar =name" :fixed="true" :placeholder="true"
               :safeAreaInsetBottom="true" :border="true">
-      <u-tabbar-item text="筛选" icon="tags" @click="clickFilterSelect" :badge=badgeCount></u-tabbar-item>
-      <u-tabbar-item text="时间" icon="clock"></u-tabbar-item>
-      <!-- <u-tabbar-item text="直播" icon="play-right"></u-tabbar-item> -->
-      <u-tabbar-item text="我的" icon="account"></u-tabbar-item>
+      <u-tabbar-item :text=timeSort :name=0 icon="clock" @click="clickTimeSort"></u-tabbar-item>
+      <u-tabbar-item text="智能推荐" :name=1 icon="star-fill" dot @click="clickDefaultSort"></u-tabbar-item>
+      <u-tabbar-item text="筛选" :name=2 icon="tags" @click="clickFilterSelect" :badge=badgeCount></u-tabbar-item>
     </u-tabbar>
 
 
@@ -170,7 +165,8 @@
 
       <view class=" bg-[#EFF0F5] w-screen h-[75vh]  rounded-md">
         <!--             弹窗内容信息-->
-        <filterSelect v-if="showFilterSelect" :filterSelectInfo="filterSelectInfoResult" :departureStationList="cityAllDepartureStations"
+        <filterSelect v-if="showFilterSelect" :filterSelectInfo="filterSelectInfoResult"
+                      :departureStationList="cityAllDepartureStations"
                       @confirmFilterSelect="confirmFilterSelectResult" @closeSpatialQuery3D_="closeSpatialQuery3D"/>
 
       </view>
@@ -181,7 +177,8 @@
   </view>
 </template>
 
-<script>
+<script>var defaultTabbar;
+
 import config from "@/common/config.js";
 import filterSelect from '@/components/filterSelect/filterSelect.vue'
 
@@ -218,22 +215,26 @@ export default {
       }, {'name': '3小时城市圈', 'hour': 3}, {'name': '4小时城市圈', 'hour': 4}, {'name': '次日达城市圈', 'hour': 24}],
       clickCityInfo: Object,
       filterSelectInfoResult: {},
-      value6: '0',
       showCityInfo: false,
       closeable: true,
       showFilterSelect: false,
       scrollHeight: '',
       hour: 0,
       badgeCount: 0,
-
-      departureStations:[],
+      departureStations: [],
       selectDepartureStations: [],
       // 城市所有车站
-      cityAllDepartureStations:[]
+      cityAllDepartureStations: [],
+      timeSort: '时间',
+      defaultTabbar: null,
+      sortWay: 0
+
+
     }
   },
 
   onLoad() {
+    this.defaultTabbar = 1
     this.getDetailList();
     let that = this;
     this.queryCityStation(that.$Route.query.departureCityName);
@@ -242,15 +243,21 @@ export default {
   methods: {
 
 
+    intSortQueryData() {
+      this.sortWay = 0
+      this.timeSort = "时间"
+      this.initQueryData()
+    },
+
+
     initQueryData() {
       this.cityList = []
       this.pageIndex = 1
       this.pageSize = 5
-
     },
 
-    queryCityStation(cityName){
-      this.cityAllDepartureStations=[]
+    queryCityStation(cityName) {
+      this.cityAllDepartureStations = []
       let that = this;
       let params = {
         "cityName": cityName,
@@ -266,8 +273,8 @@ export default {
         uni.hideLoading()
         uni.stopPullDownRefresh()
         if (res.success == true) {
-          for(let station of res.data){
-            this.cityAllDepartureStations.push({name:station,checked: false})
+          for (let station of res.data) {
+            this.cityAllDepartureStations.push({name: station, checked: false})
           }
         } else {
           console.log("请求异常")
@@ -281,8 +288,8 @@ export default {
         return
       }
 
-      this.initQueryData()
-
+      this.intSortQueryData()
+      this.defaultTabbar = 1
 
       if (duation.name == '1小时城市圈') {
         this.hour = 1
@@ -315,6 +322,7 @@ export default {
     getDetailList() {
       let that = this;
 
+      console.log("选择框",       this.defaultTabbar)
       // this.departureCityName = '北京市',
       //     this.departureDate = '2022-09-27',
       //     this.targetCityName = '不限',
@@ -332,10 +340,11 @@ export default {
         "arriveCurrentDay": this.arriveCurrentDay,
         "departureTimeSliceList": this.departureTimeSliceList,
         "arriveTimeSliceList": this.arriveTimeSliceList,
-        "stationList": this.departureStations ,
+        "stationList": this.departureStations,
         "pageSize": this.pageSize,
         "pageIndex": this.pageIndex,
-        "hour": this.hour
+        "hour": this.hour,
+        "sortWay": this.sortWay
       }
       that.isLoading = true;
       that.loadStatus = 'loading';
@@ -378,7 +387,39 @@ export default {
     },
 
     clickFilterSelect() {
+      this.defaultTabbar = 1
       this.showFilterSelect = true
+    },
+
+    clickTimeSort() {
+      this.initQueryData()
+      if (this.timeSort == "时间") {
+        this.timeSort = "出发 早->晚"
+        this.sortWay = 1
+        this.getDetailList()
+        return
+      }
+
+      if (this.timeSort == "出发 早->晚") {
+        this.timeSort = "出发 晚->早"
+        this.sortWay = 2
+        this.getDetailList()
+        return;
+      }
+
+      if (this.timeSort == "出发 晚->早") {
+        this.timeSort = "出发 早->晚"
+        this.sortWay = 1
+        this.getDetailList()
+        return;
+
+      }
+
+
+    },
+    clickDefaultSort() {
+      this.intSortQueryData()
+      this.getDetailList()
     },
 
     closeFilterSelect() {
@@ -396,7 +437,9 @@ export default {
 
     confirmFilterSelectResult(selectTrainTypes, selectDepartureTimes, selectArriveTimes, selectDepartureStations) {
 
-      this.initQueryData()
+      this.intSortQueryData()
+      this.defaultTabbar = 1
+
 
       this.trainTypes = []
       this.departureStations = []
@@ -438,8 +481,8 @@ export default {
       this.filterSelectInfoResult = {
         "selectTrainTypes": selectTrainTypes,
         "selectDepartureTimes": selectDepartureTimes,
-        "selectArriveTimes":selectArriveTimes,
-        "selectDepartureStations":selectDepartureStations
+        "selectArriveTimes": selectArriveTimes,
+        "selectDepartureStations": selectDepartureStations
       }
       this.getDetailList()
 

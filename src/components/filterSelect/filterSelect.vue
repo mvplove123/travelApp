@@ -114,7 +114,11 @@ export default {
       default: () => {
       }
     },
-    departureStationList: []
+    departureStationList: {
+      type: Array,
+      default: () => {
+      }
+    },
   },
 
   data() {
