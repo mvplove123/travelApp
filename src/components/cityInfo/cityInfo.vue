@@ -125,34 +125,27 @@
           </view>
         </view>
         </view>
-
-
-
-
-
     </view>
 
     <u-divider></u-divider>
     <!-- 当地美食 -->
-    <view class="w-11/12 h-2/5 flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
+    <view  v-if="cityDetail.foodInfoList.length>0" class="w-11/12 h-auto flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
       <view class=" m-2">
         <text class="text-xl	font-sans text-[#636363]">当地美食</text>
       </view>
 
       <!-- 美食列表 -->
       <u-scroll-list >
-        <view class="flex flex-row ">
-          <view class="justify-between mr-5" v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index"
-                @click="changeFoodInfo(foodInfo)">
-            <image class="rounded-full h-14 w-14 flex items-center justify-center bg-cover"
-                   :src="foodInfo.foodImg"></image>
-            <text class="text-xs">{{ foodInfo.foodName.substr(0, 4) }}</text>
-          </view>
+        <view class="justify-between mx-2 my-1 text-center text-xs"  :class="{'justify-between mx-2 my-1 text-center text-xs text-blue-500': rSelect.indexOf(index)!=-1}"  v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
+          <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
+                 :src="foodInfo.foodImg" @click="changeFoodInfo(foodInfo,index)"></image>
+          <text>{{ foodInfo.foodName }}</text>
         </view>
       </u-scroll-list>
 
+
       <!--      美食描述-->
-      <view class="w-11/12 bg-[#F6F7F9] h-auto mx-auto rounded-xl p-2">
+      <view class="w-11/12 bg-[#F6F7F9] h-auto mx-auto rounded-xl p-2 mb-3">
         <text class="text-xs">{{ hotFoodDesc }}</text>
       </view>
     </view>
@@ -179,6 +172,7 @@ export default {
 
   data() {
     return {
+      rSelect:[],
       cityDetail: Object,
       hotSceneryBgImg: this.cityInfo.cityImg,
       sceneryStar:'OA',
@@ -225,10 +219,15 @@ export default {
 
 
     },
-    changeFoodInfo(foodInfo) {
-
+    changeFoodInfo(foodInfo,e) {
       this.hotFoodImg = foodInfo.foodImg ? foodInfo.foodImg : this.cityInfo.cityImg
       this.hotFoodDesc = foodInfo.foodDesc
+      this.rSelect=[]
+      if (this.rSelect.indexOf(e) == -1) {
+        this.rSelect.push(e);//选中添加到数组里
+      } else {
+        this.rSelect.splice(this.rSelect.indexOf(e), 1); //取消
+      }
     },
 
     queryCityInfo() {
@@ -250,7 +249,7 @@ export default {
         if (res.success == true) {
           this.cityDetail = res.data
 
-          if (this.cityDetail.sceneryInfoList) {
+          if (this.cityDetail.sceneryInfoList.length>0) {
             const sceneryInfo = this.cityDetail.sceneryInfoList[0]
             this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl ? sceneryInfo.sceneryImgUrl : this.cityInfo.cityImg
             this.sceneryStar = sceneryInfo.rate
@@ -262,7 +261,7 @@ export default {
             }
           }
 
-          if (this.cityDetail.foodInfoList) {
+          if (this.cityDetail.foodInfoList.length>0) {
             const foodInfo = this.cityDetail.foodInfoList[0]
             this.hotFoodDesc = foodInfo.foodDesc ? foodInfo.foodDesc : this.cityInfo.cityImg
             for (let foodInfo of this.cityDetail.foodInfoList) {
