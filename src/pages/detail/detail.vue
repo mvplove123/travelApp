@@ -69,12 +69,26 @@
               <view class="w-8/12 h-full flex flex-col [#fff] ml-2.5" @click="queryCityInfo(item)">
 
                 <!-- 城市天气 -->
-                <view class="w-full h-1/5 flex flex-row justify-between  items-center mr-3">
+                <view class="w-full h-1/5 flex flex-row justify-between  items-center">
 
-                  <text class="text-lg font-sans">{{ item.cityName }}</text>
-                  <u-rate class="-ml-1" v-model="item.rate" allowHalf readonly size="10" gutter="2">
-                  </u-rate>
-                  <image class="w-4 h-4 " src="../../static/img/weather/qingtian.png"></image>
+                  <view>
+                    <text class="text-lg font-sans">{{ item.cityName }}</text>
+                  </view>
+                  <view>
+                    <u-rate class="" v-model="item.rate" allowHalf readonly size="10" gutter="0"></u-rate>
+                  </view>
+
+                  <view class="flex flex-col">
+                    <view v-if="item.weatherInfo!=null" class="-mb-5">
+                      <text class="text-xs font-sans mr-1">{{ item.weatherInfo.dayWeather }}</text>
+                      <image class="w-4 h-4 " :src="require(`../../static/img/weather/${item.weatherInfo.code}.png`)"></image>
+                    </view>
+                    <view v-if="item.weatherInfo!=null" class="mt-3">
+                      <text class="text-xs font-sans">{{ item.weatherInfo.temperature }}</text>
+                    </view>
+                  </view>
+
+
                 </view>
 
 
@@ -177,7 +191,7 @@
   </view>
 </template>
 
-<script>var defaultTabbar;
+<script>
 
 import config from "@/common/config.js";
 import filterSelect from '@/components/filterSelect/filterSelect.vue'

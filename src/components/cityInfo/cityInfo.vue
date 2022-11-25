@@ -5,7 +5,7 @@
     <!-- 城市说明 -->
     <view class="w-full h-2/5 flex flex-shrink-0 flex-col bg-cover items-center	rounded-md"
           :style="{ backgroundImage: `url(${cityInfo.cityImg})` }">
-<!--      城市基本信息-->
+      <!--      城市基本信息-->
       <view class="w-full h-2/3 flex flex-col items-center">
 
         <!--      城市名称及top景点-->
@@ -32,7 +32,10 @@
 
         <!-- 城市描述 -->
         <view class="w-11/12 h-1/2  flex flex-row bg-gray-600 bg-opacity-40 p-1 rounded	">
-          <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{ cityDetail.cityDesc }}</text>
+          <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{
+              cityDetail.cityDesc
+            }}
+          </text>
         </view>
 
       </view>
@@ -40,7 +43,7 @@
 
     </view>
 
-<!--    交通信息-->
+    <!--    交通信息-->
     <view class="w-11/12 h-1/2 flex flex-col rounded-lg	items-center bg-white shadow-md -mt-75">
       <view class="flex flex-row w-11/12 h-auto">
         <text class="font-medium mt-2 mb-1">交通信息</text>
@@ -82,6 +85,45 @@
     <!-- 车次列表 -->
     <u-divider></u-divider>
 
+    <!-- 当地天气 -->
+    <view v-if="cityDetail.weatherInfoList.length>0"
+          class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
+      <view class=" m-2">
+        <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地天气</text>
+      </view>
+
+
+      <!-- 天气列表  mx-1 my-1 text-center text-xs-->
+      <view class="flex flex-row justify-between">
+        <view class="mx-1 my-1"  v-for="(weatherInfo, index) in cityDetail.weatherInfoList" :key="index">
+
+          <view class="flex flex-col text-center">
+            <view v-if="weatherInfo!=null" class="">
+              <text class="text-xs font-sans mr-1 mb-1">{{ weatherInfo.dayWeather }}</text>
+              <image class="w-6 h-6 " :src="require(`../../static/img/weather/${weatherInfo.code}.png`)"></image>
+            </view>
+            <view v-if="weatherInfo!=null" class="">
+              <text class="text-xs font-sans">{{ weatherInfo.temperature }}</text>
+            </view>
+            <view :class="{'bg-indigo-300	 bg-opacity-40 rounded': departDate === weatherInfo.weatherDate}">
+              <view v-if="weatherInfo!=null" class="">
+                <text class="text-xs font-sans">{{ weatherInfo.week }}</text>
+                                <text class="text-xs-0.6 font-sans text-red-600" v-if="departDate === weatherInfo.weatherDate">今天</text>
+
+              </view>
+              <view v-if="weatherInfo!=null" class="">
+                <text class="text-xs font-sans">{{ weatherInfo.weatherDateStr }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+    </view>
+    <u-divider></u-divider>
+
+
     <!-- 热门景点 -->
     <view class="w-11/12 h-1/4 flex flex-shrink-0 flex-col bg-cover rounded	"
           :style="{ backgroundImage: `url(${hotSceneryBgImg})` }">
@@ -115,28 +157,35 @@
 
           <!--        级别分数-->
           <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
-            <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5"><text class="text-white  text-xs ">{{sceneryStar}}</text></view>
-            <view class="w-8 h-auto bg-blue-400 rounded"><text class="text-white font-medium text-xs	  ">{{scenerySore}}</text></view>
+            <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5">
+              <text class="text-white  text-xs ">{{ sceneryStar }}</text>
+            </view>
+            <view class="w-8 h-auto bg-blue-400 rounded">
+              <text class="text-white font-medium text-xs	  ">{{ scenerySore }}</text>
+            </view>
 
           </view>
 
           <view class="w-full h-2/5 overflow-auto">
-            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded ">{{sceneryDesc}}</text>
+            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded ">{{ sceneryDesc }}</text>
           </view>
         </view>
-        </view>
+      </view>
     </view>
 
     <u-divider></u-divider>
     <!-- 当地美食 -->
-    <view  v-if="cityDetail.foodInfoList.length>0" class="w-11/12 h-auto flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
+    <view v-if="cityDetail.foodInfoList.length>0"
+          class="w-11/12 h-auto flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
       <view class=" m-2">
-        <text class="text-xl	font-sans text-[#636363]">当地美食</text>
+        <text class="text-xl font-bold	font-sans text-[#636363]">当地美食</text>
       </view>
 
       <!-- 美食列表 -->
-      <u-scroll-list >
-        <view class="justify-between mx-2 my-1 text-center text-xs"  :class="{'justify-between mx-2 my-1 text-center text-xs text-blue-500': rSelect.indexOf(index)!=-1}"  v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
+      <u-scroll-list>
+        <view class="justify-between mx-2 my-1 text-center text-xs"
+              :class="{'justify-between mx-2 my-1 text-center text-xs text-blue-500': rSelect.indexOf(index)!=-1}"
+              v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
           <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
                  :src="foodInfo.foodImg" @click="changeFoodInfo(foodInfo,index)"></image>
           <text>{{ foodInfo.foodName }}</text>
@@ -155,6 +204,7 @@
 
 <script>
 import config from "@/common/config";
+import dayjs from 'dayjs'
 
 export default {
 
@@ -167,17 +217,16 @@ export default {
       default: () => {
       }
     },
-    value: {}
   },
 
   data() {
     return {
-      rSelect:[],
+      rSelect: [],
       cityDetail: Object,
       hotSceneryBgImg: this.cityInfo.cityImg,
-      sceneryStar:'OA',
-      scenerySore:'0',
-      sceneryDesc:'',
+      sceneryStar: 'OA',
+      scenerySore: '0',
+      sceneryDesc: '',
       showScrollbar: true,
       pagingEnabled: false,
       hotSceneryList: [],
@@ -186,6 +235,7 @@ export default {
       hotFoodDesc: '',
       hotFoodList: [],
       hotFoodMap: new Map(),
+      departDate:dayjs().format('YYYY-MM-DD')
     }
 
 
@@ -215,14 +265,14 @@ export default {
       this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl ? sceneryInfo.sceneryImgUrl : this.cityInfo.cityImg
       this.sceneryStar = sceneryInfo.rate
       this.scenerySore = sceneryInfo.score
-      this.sceneryDesc =sceneryInfo.sceneryDesc
+      this.sceneryDesc = sceneryInfo.sceneryDesc
 
 
     },
-    changeFoodInfo(foodInfo,e) {
+    changeFoodInfo(foodInfo, e) {
       this.hotFoodImg = foodInfo.foodImg ? foodInfo.foodImg : this.cityInfo.cityImg
       this.hotFoodDesc = foodInfo.foodDesc
-      this.rSelect=[]
+      this.rSelect = []
       if (this.rSelect.indexOf(e) == -1) {
         this.rSelect.push(e);//选中添加到数组里
       } else {
@@ -232,7 +282,6 @@ export default {
 
     queryCityInfo() {
       let that = this;
-      console.log("this.cityInfo", this.cityInfo)
       let params = {
         "cityName": this.cityInfo.cityName,
       }
@@ -249,7 +298,7 @@ export default {
         if (res.success == true) {
           this.cityDetail = res.data
 
-          if (this.cityDetail.sceneryInfoList.length>0) {
+          if (this.cityDetail.sceneryInfoList.length > 0) {
             const sceneryInfo = this.cityDetail.sceneryInfoList[0]
             this.hotSceneryBgImg = sceneryInfo.sceneryImgUrl ? sceneryInfo.sceneryImgUrl : this.cityInfo.cityImg
             this.sceneryStar = sceneryInfo.rate
@@ -261,7 +310,7 @@ export default {
             }
           }
 
-          if (this.cityDetail.foodInfoList.length>0) {
+          if (this.cityDetail.foodInfoList.length > 0) {
             const foodInfo = this.cityDetail.foodInfoList[0]
             this.hotFoodDesc = foodInfo.foodDesc ? foodInfo.foodDesc : this.cityInfo.cityImg
             for (let foodInfo of this.cityDetail.foodInfoList) {

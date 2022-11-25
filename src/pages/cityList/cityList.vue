@@ -186,7 +186,7 @@
 					duration: 2000
 				})
 				// if (e.name === this.locationList[0].name) return
-				this.$store.dispatch('selectAddress/getHistoricalStorage', e)
+				// this.$store.dispatch('selectAddress/getHistoricalStorage', e)
 			}
 		}
 

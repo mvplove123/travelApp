@@ -19,69 +19,69 @@
     <view class="h-[35vh] w-11/12 bg-white rounded-lg m-auto mt-2 shadow-l">
 
 
-        <!-- 第一行 -->
-        <view class="flex flex-row justify-between items-center h-[10vh]">
-          <view class="flex flex-col ml-4" @click="openShowCityList('出发城市选择')">
-            <text class="text-[#C1C1C1] text-xs	">出发城市</text>
-            <text class="text-2xl mt-1 font-medium">{{ departCity }}</text>
-            <!--             弹窗内容信息-->
-            <u-popup :show="chooseCityFlag" @close="closeShowCityList"
-                     @open="openShowCityList(cityTitleName)" mode='right'>
+      <!-- 第一行 -->
+      <view class="flex flex-row justify-between items-center h-[10vh]">
+        <view class="flex flex-col ml-4" @click="openShowCityList('出发城市选择')">
+          <text class="text-[#C1C1C1] text-xs	">出发城市</text>
+          <text class="text-2xl mt-1 font-medium">{{ departCity }}</text>
+          <!--             弹窗内容信息-->
+          <u-popup :show="chooseCityFlag" @close="closeShowCityList"
+                   @open="openShowCityList(cityTitleName)" mode='right'>
 
-              <scroll-view :scroll-top="0" scroll-y="true" class=" bg-[#EFF0F5] w-screen h-screen  rounded-md mt-8">
-                <chooseCity :cityTitleName="cityTitleName" @pickedCity="change"></chooseCity>
-              </scroll-view>
-            </u-popup>
-          </view>
-          <view class=" mt-5 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500">
-            <!-- 图片 -->
-            <image class="w-5 h-5" src="/static/img/banner/departure.png"/>
-          </view>
-          <view class="flex flex-col mr-4 " @click="openShowCityList('到达城市选择')">
-            <text class="text-[#C1C1C1] text-xs	">到达城市</text>
-            <text class="text-2xl mt-1 font-semibold">{{ targetCity }}</text>
-          </view>
+            <scroll-view :scroll-top="0" scroll-y="true" class=" bg-[#EFF0F5] w-screen h-screen  rounded-md mt-8">
+              <chooseCity :cityTitleName="cityTitleName" @pickedCity="change"></chooseCity>
+            </scroll-view>
+          </u-popup>
         </view>
-<!--        <u-divider lineColor="#dcdfe6"></u-divider>-->
-        <u-line></u-line>
-
-
-        <!-- 出行日期 -->
-        <view class=" flex  items-center h-[10vh]">
-          <view class="flex flex-col ml-4 w-full" @click="showCalendar = true">
-            <view>
-              <text class="text-[#C1C1C1] text-xs	">出行日期</text>
-
-            </view>
-            <view>
-              <text class="text-2xl mt-1 font-semibold">{{ departDateStr }}</text>
-              <text class="text-l ml-1 font-semibold">{{ dateNumStr }}</text>
-              <text class="text-l ml-1 font-semibold">{{ week }}</text>
-            </view>
-
-            <u-calendar :show="showCalendar" :mode="mode" @confirm="confirm" @close="calendarClose"
-                        title="选择出行日期">
-            </u-calendar>
-          </view>
+        <view class=" mt-5 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500">
+          <!-- 图片 -->
+          <image class="w-5 h-5" src="/static/img/banner/departure.png"/>
         </view>
-        <u-line></u-line>
-
-
-<!--        &lt;!&ndash; 复选框 &ndash;&gt;-->
-<!--        <view class="flex flex-row m-4 h-5 ">-->
-<!--          <u-checkbox-group placement="row" iconPlacement="left" v-model="transportType">-->
-<!--            <u-checkbox v-for="(item, index) in checkboxList" :key="index" :label="item.name"-->
-<!--                        :name="item.type" activeColor="#70A3F3" labelColor="#C1C1C1">-->
-<!--            </u-checkbox>-->
-<!--          </u-checkbox-group>-->
-<!--        </view>-->
-        <view class="w-full  h-[15vh]  flex flex-row justify-center items-center">
-          <view class=" h-auto  w-11/12 ">
-            <u-button size="large" class="" color="#60A5FA" @click="jump">
-              <text class="text-l mt-1 font-semibold">查询</text>
-            </u-button>
-          </view>
+        <view class="flex flex-col mr-4 " @click="openShowCityList('到达城市选择')">
+          <text class="text-[#C1C1C1] text-xs	">到达城市</text>
+          <text class="text-2xl mt-1 font-semibold">{{ targetCity }}</text>
         </view>
+      </view>
+      <!--        <u-divider lineColor="#dcdfe6"></u-divider>-->
+      <u-line></u-line>
+
+
+      <!-- 出行日期 -->
+      <view class=" flex  items-center h-[10vh]">
+        <view class="flex flex-col ml-4 w-full" @click="calendarOpen">
+          <view>
+            <text class="text-[#C1C1C1] text-xs	">出行日期</text>
+
+          </view>
+          <view>
+            <text class="text-2xl mt-1 font-semibold">{{ departDateStr }}</text>
+            <text class="text-l ml-1 font-semibold">{{ dateNumStr }}</text>
+            <text class="text-l ml-1 font-semibold">{{ week }}</text>
+          </view>
+
+          <u-calendar :show="showCalendar" :mode="mode" @confirm="confirm" @close="calendarClose"
+                      title="选择出行日期">
+          </u-calendar>
+        </view>
+      </view>
+      <u-line></u-line>
+
+
+      <!--        &lt;!&ndash; 复选框 &ndash;&gt;-->
+      <!--        <view class="flex flex-row m-4 h-5 ">-->
+      <!--          <u-checkbox-group placement="row" iconPlacement="left" v-model="transportType">-->
+      <!--            <u-checkbox v-for="(item, index) in checkboxList" :key="index" :label="item.name"-->
+      <!--                        :name="item.type" activeColor="#70A3F3" labelColor="#C1C1C1">-->
+      <!--            </u-checkbox>-->
+      <!--          </u-checkbox-group>-->
+      <!--        </view>-->
+      <view class="w-full  h-[15vh]  flex flex-row justify-center items-center">
+        <view class=" h-auto  w-11/12 ">
+          <u-button size="large" class="" color="#60A5FA" @click="jump">
+            <text class="text-l mt-1 font-semibold">查询</text>
+          </u-button>
+        </view>
+      </view>
 
 
 
@@ -95,8 +95,8 @@
     <view class="w-11/12 h-[30vh]  flex  flex-col bg-cover 	rounded-md items-center"
           :style="{ backgroundImage: `url(${cityDetail.cityImg})` }">
 
-      <view class="w-11/12 h-1/2 flex flex-row">
-        <view class="w-1/3 h-1/3 mt-8">
+      <view class="w-11/12 h-1/2 flex flex-row justify-between">
+        <view class="w-2/3 h-1/3 mt-8">
           <text class="text-2xl	font-sans text-white font-bold tracking-normal	bg-[#3D4144] bg-opacity-40 rounded ">{{
               cityDetail.cityName
             }}
@@ -104,17 +104,60 @@
         </view>
 
         <!-- 景区天气 -->
-        <view class="w-2/3 h-1/3 mt-8  flex flex-row justify-end">
-          <text>晴</text>
-          <image class="w-5 h-5" src="/static/img/weather/qingtian.png"/>
-
+        <view class="w-1/4 h-1/2 mt-8  flex flex-col items-end bg-gray-600 bg-opacity-40 rounded text-white">
+          <view v-if="cityDetail.weatherInfoList" class="-mb-4">
+            <text class="text-base font-sans mr-1">{{ cityDetail.weatherInfoList[0].dayWeather }}</text>
+            <image class="w-5 h-5 " :src="require(`../../static/img/weather/${cityDetail.weatherInfoList[0].code}.png`)"></image>
+          </view>
+          <view v-if="cityDetail.weatherInfoList" class="mt-3">
+            <text class="text-sm font-sans  mr-2">{{ cityDetail.weatherInfoList[0].temperature }}</text>
+          </view>
         </view>
+
+
+
       </view>
       <!-- 城市描述 -->
       <view class="w-11/12 h-auto   flex flex-row bg-gray-600 bg-opacity-40 justify-end items-center p-1 rounded">
         <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{ cityDetail.cityDesc }}</text>
       </view>
     </view>
+
+
+    <u-divider></u-divider>
+
+    <!-- 当地天气 -->
+    <view v-if="cityDetail.weatherInfoList"  class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
+      <view class=" m-2">
+        <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地天气</text>
+      </view>
+
+      <!-- 天气列表  mx-2 my-1 text-center text-xs-->
+      <view class="flex flex-row justify-between">
+        <view class="mx-1 my-1"  v-for="(weatherInfo, index) in cityDetail.weatherInfoList" :key="index">
+
+          <view class="flex flex-col text-center">
+            <view v-if="weatherInfo!=null" class="">
+              <text class="text-xs font-sans mr-1 mb-1">{{ weatherInfo.dayWeather }}</text>
+              <image class="w-6 h-6 " :src="require(`../../static/img/weather/${weatherInfo.code}.png`)"></image>
+            </view>
+            <view v-if="weatherInfo!=null" class="">
+              <text class="text-xs font-sans">{{ weatherInfo.temperature }}</text>
+            </view>
+            <view :class="{'bg-indigo-300	 bg-opacity-40 rounded text-red-600': departDate === weatherInfo.weatherDate}">
+              <view v-if="weatherInfo!=null" class="">
+                <text class="text-xs font-sans">{{ weatherInfo.week }}</text>
+<!--                <text class="text-xs-0.6 font-sans text-red-600" v-if="departDate === weatherInfo.weatherDate">出发</text>-->
+              </view>
+              <view v-if="weatherInfo!=null" class="">
+                <text class="text-xs font-sans">{{ weatherInfo.weatherDateStr }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
 
 
     <u-divider></u-divider>
@@ -177,11 +220,13 @@
 
       <!-- 美食列表 -->
       <u-scroll-list >
-          <view class="justify-between mx-2 my-1 text-center text-xs"  :class="{'justify-between mx-2 my-1 text-center text-xs text-blue-500': rSelect.indexOf(index)!=-1}"  v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
-            <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
-                   :src="foodInfo.foodImg" @click="changeFoodInfo(foodInfo,index)"></image>
-            <text>{{ foodInfo.foodName }}</text>
-          </view>
+        <view class="justify-between mx-2 my-1 text-center text-xs"  @click="changeFoodInfo(foodInfo,index)"   v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
+          <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
+                 :src="foodInfo.foodImg"></image>
+
+          <text :class=" {'text-blue-500': rSelect.indexOf(index)!=-1}" >{{ foodInfo.foodName }}</text>
+
+        </view>
       </u-scroll-list>
 
       <!--      美食描述-->
@@ -189,9 +234,11 @@
         <text class="text-xs">{{ hotFoodDesc }}</text>
       </view>
     </view>
+
+
     <u-divider text="已经到底了" lineColor="#303D4E"></u-divider>
 
-    </view>
+  </view>
 
 </template>
 
@@ -256,7 +303,8 @@ export default {
       hotSceneryBgImg: '',
       currentIndex:0,
       cityStationList:[],
-      rSelect:[]
+      rSelect:[],
+      showSelectWeather:[]
     };
   },
 
@@ -272,7 +320,17 @@ export default {
       this.handleTimeForm(e[0])
 
       this.showCalendar = false
+
     },
+
+
+    calendarOpen() {
+      this.showCalendar = true
+    },
+    calendarClose() {
+      this.showCalendar = false
+    },
+
 
     openShowCityList(titleName) {
       this.cityTitleName = titleName
@@ -283,8 +341,6 @@ export default {
       if (titleName === '到达城市选择') {
         this.targetCityChooseFlag = true
       }
-
-
     },
 
     closeShowCityList() {
@@ -310,10 +366,6 @@ export default {
         }
       }
       this.closeShowCityList()
-    },
-
-    calendarClose(e) {
-      this.showCalendar = false
     },
 
     // 路由跳转
@@ -434,14 +486,15 @@ export default {
       this.scenerySore = sceneryInfo.score
       this.sceneryDesc = sceneryInfo.sceneryDesc
     },
-    changeFoodInfo(foodInfo,e) {
+
+    changeFoodInfo(foodInfo,index) {
       this.hotFoodImg = foodInfo.foodImg ? foodInfo.foodImg : this.cityInfo.cityImg
       this.hotFoodDesc = foodInfo.foodDesc
       this.rSelect=[]
-      if (this.rSelect.indexOf(e) == -1) {
-        this.rSelect.push(e);//选中添加到数组里
+      if (this.rSelect.indexOf(index) == -1) {
+        this.rSelect.push(index);//选中添加到数组里
       } else {
-        this.rSelect.splice(this.rSelect.indexOf(e), 1); //取消
+        this.rSelect.splice(this.rSelect.indexOf(index), 1); //取消
       }
     },
   },
