@@ -109,7 +109,7 @@
             <text class="text-base font-sans mr-1">{{ cityDetail.weatherInfoList[0].dayWeather }}</text>
             <image class="w-5 h-5 " :src="require(`../../static/img/weather/${cityDetail.weatherInfoList[0].code}.png`)"></image>
           </view>
-          <view v-if="cityDetail.weatherInfoList" class="mt-3">
+          <view v-if="cityDetail.weatherInfoList" class="mt-3 flex flex-col">
             <text class="text-sm font-sans  mr-2">{{ cityDetail.weatherInfoList[0].temperature }}</text>
           </view>
         </view>
