@@ -91,95 +91,93 @@
     <!-- 当前目的地可去城市列表，只列第二天热门数据 -->
     <u-divider :text="cityIntroduce"></u-divider>
 
-    <!-- 城市说明 -->
-    <view class="w-11/12 h-[30vh]  flex  flex-col bg-cover 	rounded-md items-center"
-          :style="{ backgroundImage: `url(${cityDetail.cityImg})` }">
+<!--    <view v-if="cityDetail!=null">-->
 
-      <view class="w-11/12 h-1/2 flex flex-row justify-between">
-        <view class="w-2/3 h-1/3 mt-8">
-          <text class="text-2xl	font-sans text-white font-bold tracking-normal	bg-[#3D4144] bg-opacity-40 rounded ">{{
-              cityDetail.cityName
-            }}
-          </text>
+      <!-- 城市说明 -->
+      <view class="w-11/12 h-[30vh]  flex  flex-col bg-cover 	rounded-md items-center"
+            :style="{ backgroundImage: `url(${cityDetail.cityImg})` }">
+
+        <view class="w-11/12 h-1/2 flex flex-row justify-between">
+          <view class="w-2/3 h-1/3 mt-8">
+            <text class="text-2xl	font-sans text-white font-bold tracking-normal	bg-[#3D4144] bg-opacity-40 rounded ">{{
+                cityDetail.cityName
+              }}
+            </text>
+          </view>
+
+          <!-- 景区天气 -->
+          <view class="w-1/4 h-1/2 mt-8  flex flex-col items-end bg-gray-600 bg-opacity-40 rounded text-white">
+            <view v-if="cityDetail.weatherInfoList && cityDetail.weatherInfoList.length>0" class="-mb-4">
+              <text class="text-base font-sans mr-1">{{ cityDetail.weatherInfoList[0].dayWeather }}</text>
+              <image class="w-5 h-5 " :src="require(`../../static/img/weather/${cityDetail.weatherInfoList[0].code}.png`)"></image>
+            </view>
+            <view v-if="cityDetail.weatherInfoList && cityDetail.weatherInfoList.length>0" class="mt-3 flex flex-col">
+              <text class="text-sm font-sans  mr-2">{{ cityDetail.weatherInfoList[0].temperature }}</text>
+            </view>
+          </view>
+
+
+
+        </view>
+        <!-- 城市描述 -->
+        <view class="w-11/12 h-auto   flex flex-row bg-gray-600 bg-opacity-40 justify-end items-center p-1 rounded">
+          <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{ cityDetail.cityDesc }}</text>
+        </view>
+      </view>
+
+      <u-divider></u-divider>
+
+      <!-- 当地天气 -->
+      <view v-if="cityDetail.weatherInfoList && cityDetail.weatherInfoList.length>0"  class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
+        <view class=" m-2">
+          <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地天气</text>
         </view>
 
-        <!-- 景区天气 -->
-        <view class="w-1/4 h-1/2 mt-8  flex flex-col items-end bg-gray-600 bg-opacity-40 rounded text-white">
-          <view v-if="cityDetail.weatherInfoList" class="-mb-4">
-            <text class="text-base font-sans mr-1">{{ cityDetail.weatherInfoList[0].dayWeather }}</text>
-            <image class="w-5 h-5 " :src="require(`../../static/img/weather/${cityDetail.weatherInfoList[0].code}.png`)"></image>
-          </view>
-          <view v-if="cityDetail.weatherInfoList" class="mt-3 flex flex-col">
-            <text class="text-sm font-sans  mr-2">{{ cityDetail.weatherInfoList[0].temperature }}</text>
-          </view>
-        </view>
+        <!-- 天气列表  mx-2 my-1 text-center text-xs-->
+        <view class="flex flex-row justify-between">
+          <view class="mx-1 my-1"  v-for="(weatherInfo, index) in cityDetail.weatherInfoList" :key="index">
 
-
-
-      </view>
-      <!-- 城市描述 -->
-      <view class="w-11/12 h-auto   flex flex-row bg-gray-600 bg-opacity-40 justify-end items-center p-1 rounded">
-        <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{ cityDetail.cityDesc }}</text>
-      </view>
-    </view>
-
-
-    <u-divider></u-divider>
-
-    <!-- 当地天气 -->
-    <view v-if="cityDetail.weatherInfoList"  class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
-      <view class=" m-2">
-        <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地天气</text>
-      </view>
-
-      <!-- 天气列表  mx-2 my-1 text-center text-xs-->
-      <view class="flex flex-row justify-between">
-        <view class="mx-1 my-1"  v-for="(weatherInfo, index) in cityDetail.weatherInfoList" :key="index">
-
-          <view class="flex flex-col text-center">
-            <view v-if="weatherInfo!=null" class="">
-              <text class="text-xs font-sans mr-1 mb-1">{{ weatherInfo.dayWeather }}</text>
-              <image class="w-6 h-6 " :src="require(`../../static/img/weather/${weatherInfo.code}.png`)"></image>
-            </view>
-            <view v-if="weatherInfo!=null" class="">
-              <text class="text-xs font-sans">{{ weatherInfo.temperature }}</text>
-            </view>
-            <view :class="{'bg-indigo-300	 bg-opacity-40 rounded text-red-600': departDate === weatherInfo.weatherDate}">
+            <view class="flex flex-col text-center">
               <view v-if="weatherInfo!=null" class="">
-                <text class="text-xs font-sans">{{ weatherInfo.week }}</text>
-<!--                <text class="text-xs-0.6 font-sans text-red-600" v-if="departDate === weatherInfo.weatherDate">出发</text>-->
+                <text class="text-xs font-sans mr-1 mb-1">{{ weatherInfo.dayWeather }}</text>
+                <image class="w-6 h-6 " :src="require(`../../static/img/weather/${weatherInfo.code}.png`)"></image>
               </view>
               <view v-if="weatherInfo!=null" class="">
-                <text class="text-xs font-sans">{{ weatherInfo.weatherDateStr }}</text>
+                <text class="text-xs font-sans">{{ weatherInfo.temperature }}</text>
+              </view>
+              <view :class="{'bg-indigo-300	 bg-opacity-40 rounded text-red-600': departDate === weatherInfo.weatherDate}">
+                <view v-if="weatherInfo!=null" class="">
+                  <text class="text-xs font-sans">{{ weatherInfo.week }}</text>
+                  <!--                <text class="text-xs-0.6 font-sans text-red-600" v-if="departDate === weatherInfo.weatherDate">出发</text>-->
+                </view>
+                <view v-if="weatherInfo!=null" class="">
+                  <text class="text-xs font-sans">{{ weatherInfo.weatherDateStr }}</text>
+                </view>
               </view>
             </view>
           </view>
         </view>
       </view>
-    </view>
 
+      <u-divider></u-divider>
 
+      <!-- 热门景点 -->
+      <view v-if="hotSceneryList.length>0" class="w-11/12 h-[30vh]  flex flex-shrink-0 flex-col bg-cover rounded	"
+            :style="{ backgroundImage: `url(${hotSceneryBgImg})` }">
 
-    <u-divider></u-divider>
+        <view class=" m-2">
+          <text class="text-xl	font-sans text-white tracking-normal font-bold bg-[#3D4144] bg-opacity-40 rounded p-0.5">热门景点</text>
+        </view>
 
-
-    <!-- 热门景点 -->
-    <view class="w-11/12 h-[30vh]  flex flex-shrink-0 flex-col bg-cover rounded	"
-          :style="{ backgroundImage: `url(${hotSceneryBgImg})` }">
-
-      <view class=" m-2">
-        <text class="text-xl	font-sans text-white tracking-normal font-bold bg-[#3D4144] bg-opacity-40 rounded p-0.5">热门景点</text>
-      </view>
-
-      <!-- 景区列表 -->
-      <u-tabs :list="hotSceneryList" lineWidth="20" lineColor="transparent" lineHeight="7" :current=currentIndex  :activeStyle="{
+        <!-- 景区列表 -->
+        <u-tabs :list="hotSceneryList" lineWidth="20" lineColor="transparent" lineHeight="7" :current=currentIndex  :activeStyle="{
         color: '#fff',
         backgroundColor:'#3B84ED',
         borderRadius:'30px',
         transform: 'scale(1.05)',
         padding:'2px 10px',
         }"
-              :inactiveStyle="{
+                :inactiveStyle="{
         color: '#606266',
         backgroundColor:'#fff',
                 borderRadius:'30px',
@@ -187,53 +185,55 @@
         padding:'2px 10px',
         transform: 'scale(1)'
     }" itemStyle="padding-left: 15px; padding-right: 15px; height: 45px;"
-              @click="changeSceneryBackImg"></u-tabs>
+                @click="changeSceneryBackImg"></u-tabs>
 
 
-      <view class="flex-1	 flex-col w-11/12 h-3/5 justify-start  items-end m-auto">
+        <view class="flex-1	 flex-col w-11/12 h-3/5 justify-start  items-end m-auto">
 
-        <view class="flex flex-col w-full h-3/5 mt-14 ">
+          <view class="flex flex-col w-full h-3/5 mt-14 ">
 
-          <!--        级别分数-->
-          <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
-            <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5"><text class="text-white  text-xs ">{{sceneryStar}}</text></view>
-            <view class="w-8 h-auto bg-blue-400 rounded"><text class="text-white font-medium text-xs	  ">{{scenerySore}}</text></view>
+            <!--        级别分数-->
+            <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
+              <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5"><text class="text-white  text-xs ">{{sceneryStar}}</text></view>
+              <view class="w-8 h-auto bg-blue-400 rounded"><text class="text-white font-medium text-xs	  ">{{scenerySore}}</text></view>
+
+            </view>
+
+            <view class="w-full h-2/5 overflow-auto">
+              <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded">{{sceneryDesc}}</text>
+            </view>
+          </view>
+        </view>
+
+      </view>
+
+      <u-divider></u-divider>
+
+      <!-- 当地美食 -->
+      <view v-if="cityDetail.foodInfoList && cityDetail.foodInfoList.length>0"  class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
+        <view class=" m-2">
+          <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地美食</text>
+        </view>
+
+        <!-- 美食列表 -->
+        <u-scroll-list >
+          <view class="justify-between mx-2 my-1 text-center text-xs"  @click="changeFoodInfo(foodInfo,index)"   v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
+            <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
+                   :src="foodInfo.foodImg"></image>
+
+            <text :class=" {'text-blue-500': rSelect.indexOf(index)!=-1}" >{{ foodInfo.foodName }}</text>
 
           </view>
+        </u-scroll-list>
 
-          <view class="w-full h-2/5 overflow-auto">
-            <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded">{{sceneryDesc}}</text>
-          </view>
+        <!--      美食描述-->
+        <view class="w-11/12 bg-[#F6F7F9] h-auto mx-auto rounded-xl p-2 mb-3">
+          <text class="text-xs">{{ hotFoodDesc }}</text>
         </view>
       </view>
 
-    </view>
-
-    <u-divider></u-divider>
 
 
-    <!-- 当地美食 -->
-    <view v-if="cityDetail.foodInfoList.length>0"  class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
-      <view class=" m-2">
-        <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地美食</text>
-      </view>
-
-      <!-- 美食列表 -->
-      <u-scroll-list >
-        <view class="justify-between mx-2 my-1 text-center text-xs"  @click="changeFoodInfo(foodInfo,index)"   v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
-          <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
-                 :src="foodInfo.foodImg"></image>
-
-          <text :class=" {'text-blue-500': rSelect.indexOf(index)!=-1}" >{{ foodInfo.foodName }}</text>
-
-        </view>
-      </u-scroll-list>
-
-      <!--      美食描述-->
-      <view class="w-11/12 bg-[#F6F7F9] h-auto mx-auto rounded-xl p-2 mb-3">
-        <text class="text-xs">{{ hotFoodDesc }}</text>
-      </view>
-    </view>
 
 
     <u-divider text="已经到底了" lineColor="#303D4E"></u-divider>

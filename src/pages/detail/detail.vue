@@ -2,7 +2,6 @@
   <!--  外边框-->
   <view class="bg-[#EFF0F5]  w-full h-screen  flex flex-col items-center" @touchmove.stop.prevent="moveHandle">
 
-
     <u-navbar :title=titleName @rightClick="rightClick" :autoBack="true" bgColor="#fff"></u-navbar>
 
     <!-- 导航栏 -->
@@ -355,6 +354,7 @@ export default {
         "departureTimeSliceList": this.departureTimeSliceList,
         "arriveTimeSliceList": this.arriveTimeSliceList,
         "stationList": this.departureStations,
+        "trainTypeList":this.trainTypes,
         "pageSize": this.pageSize,
         "pageIndex": this.pageIndex,
         "hour": this.hour,
@@ -461,7 +461,7 @@ export default {
       this.arriveTimeSliceList = []
 
       for (let selectTrainType of selectTrainTypes) {
-        this.trainTypes.push(selectTrainType.name)
+        this.trainTypes.push(selectTrainType.trainType)
       }
 
       for (let selectDepartureTime of selectDepartureTimes) {

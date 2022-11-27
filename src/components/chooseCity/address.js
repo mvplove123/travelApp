@@ -535,6 +535,331 @@ const address =[
 		]
 	},
 	{
+		"letter": "D",
+		"citylist": [
+			{
+				"name": "大安市",
+				"adCode": "0436",
+				"cityCode": "220882"
+			},
+			{
+				"name": "大方县",
+				"adCode": "0857",
+				"cityCode": "520521"
+			},
+			{
+				"name": "大箐山县",
+				"adCode": "0458",
+				"cityCode": "230725"
+			},
+			{
+				"name": "大理市",
+				"adCode": "0872",
+				"cityCode": "532901"
+			},
+			{
+				"name": "大荔县",
+				"adCode": "0913",
+				"cityCode": "610523"
+			},
+			{
+				"name": "大连市",
+				"adCode": "0411",
+				"cityCode": "210200"
+			},
+			{
+				"name": "大庆市",
+				"adCode": "0459",
+				"cityCode": "230600"
+			},
+			{
+				"name": "大石桥市",
+				"adCode": "0417",
+				"cityCode": "210882"
+			},
+			{
+				"name": "大通回族土族自治县",
+				"adCode": "0971",
+				"cityCode": "630121"
+			},
+			{
+				"name": "大同市",
+				"adCode": "0352",
+				"cityCode": "140200"
+			},
+			{
+				"name": "大兴安岭地区",
+				"adCode": "0457",
+				"cityCode": "232700"
+			},
+			{
+				"name": "大冶市",
+				"adCode": "0714",
+				"cityCode": "420281"
+			},
+			{
+				"name": "大邑县",
+				"adCode": "028",
+				"cityCode": "510129"
+			},
+			{
+				"name": "大英县",
+				"adCode": "0825",
+				"cityCode": "510923"
+			},
+			{
+				"name": "大余县",
+				"adCode": "0797",
+				"cityCode": "360723"
+			},
+			{
+				"name": "达州市",
+				"adCode": "0818",
+				"cityCode": "511700"
+			},
+			{
+				"name": "代县",
+				"adCode": "0350",
+				"cityCode": "140923"
+			},
+			{
+				"name": "丹东市",
+				"adCode": "0415",
+				"cityCode": "210600"
+			},
+			{
+				"name": "丹凤县",
+				"adCode": "0914",
+				"cityCode": "611022"
+			},
+			{
+				"name": "丹江口市",
+				"adCode": "0719",
+				"cityCode": "420381"
+			},
+			{
+				"name": "丹阳市",
+				"adCode": "0511",
+				"cityCode": "321181"
+			},
+			{
+				"name": "儋州市",
+				"adCode": "0805",
+				"cityCode": "460400"
+			},
+			{
+				"name": "宕昌县",
+				"adCode": "2935",
+				"cityCode": "621223"
+			},
+			{
+				"name": "砀山县",
+				"adCode": "0557",
+				"cityCode": "341321"
+			},
+			{
+				"name": "当涂县",
+				"adCode": "0555",
+				"cityCode": "340521"
+			},
+			{
+				"name": "当阳市",
+				"adCode": "0717",
+				"cityCode": "420582"
+			},
+			{
+				"name": "道县",
+				"adCode": "0746",
+				"cityCode": "431124"
+			},
+			{
+				"name": "德安县",
+				"adCode": "0792",
+				"cityCode": "360426"
+			},
+			{
+				"name": "德保县",
+				"adCode": "0776",
+				"cityCode": "451024"
+			},
+			{
+				"name": "德昌县",
+				"adCode": "0834",
+				"cityCode": "513424"
+			},
+			{
+				"name": "德惠市",
+				"adCode": "0431",
+				"cityCode": "220183"
+			},
+			{
+				"name": "德清县",
+				"adCode": "0572",
+				"cityCode": "330521"
+			},
+			{
+				"name": "德兴市",
+				"adCode": "0793",
+				"cityCode": "361181"
+			},
+			{
+				"name": "德阳市",
+				"adCode": "0838",
+				"cityCode": "510600"
+			},
+			{
+				"name": "德州市",
+				"adCode": "0534",
+				"cityCode": "371400"
+			},
+			{
+				"name": "磴口县",
+				"adCode": "0478",
+				"cityCode": "150822"
+			},
+			{
+				"name": "灯塔市",
+				"adCode": "0419",
+				"cityCode": "211081"
+			},
+			{
+				"name": "邓州市",
+				"adCode": "0377",
+				"cityCode": "411381"
+			},
+			{
+				"name": "垫江县",
+				"adCode": "023",
+				"cityCode": "500231"
+			},
+			{
+				"name": "定边县",
+				"adCode": "0912",
+				"cityCode": "610825"
+			},
+			{
+				"name": "定南县",
+				"adCode": "0797",
+				"cityCode": "360728"
+			},
+			{
+				"name": "定西市",
+				"adCode": "0932",
+				"cityCode": "621100"
+			},
+			{
+				"name": "定襄县",
+				"adCode": "0350",
+				"cityCode": "140921"
+			},
+			{
+				"name": "定远县",
+				"adCode": "0550",
+				"cityCode": "341125"
+			},
+			{
+				"name": "定州市",
+				"adCode": "0312",
+				"cityCode": "130682"
+			},
+			{
+				"name": "东安县",
+				"adCode": "0746",
+				"cityCode": "431122"
+			},
+			{
+				"name": "东方市",
+				"adCode": "0807",
+				"cityCode": "469007"
+			},
+			{
+				"name": "东丰县",
+				"adCode": "0437",
+				"cityCode": "220421"
+			},
+			{
+				"name": "东港市",
+				"adCode": "0415",
+				"cityCode": "210681"
+			},
+			{
+				"name": "东莞市",
+				"adCode": "0769",
+				"cityCode": "441900"
+			},
+			{
+				"name": "东光县",
+				"adCode": "0317",
+				"cityCode": "130923"
+			},
+			{
+				"name": "东海县",
+				"adCode": "0518",
+				"cityCode": "320722"
+			},
+			{
+				"name": "洞口县",
+				"adCode": "0739",
+				"cityCode": "430525"
+			},
+			{
+				"name": "东宁市",
+				"adCode": "0453",
+				"cityCode": "231086"
+			},
+			{
+				"name": "东台市",
+				"adCode": "0515",
+				"cityCode": "320981"
+			},
+			{
+				"name": "东营市",
+				"adCode": "0546",
+				"cityCode": "370500"
+			},
+			{
+				"name": "东至县",
+				"adCode": "0566",
+				"cityCode": "341721"
+			},
+			{
+				"name": "都昌县",
+				"adCode": "0792",
+				"cityCode": "360428"
+			},
+			{
+				"name": "杜尔伯特蒙古族自治县",
+				"adCode": "0459",
+				"cityCode": "230624"
+			},
+			{
+				"name": "都江堰市",
+				"adCode": "028",
+				"cityCode": "510181"
+			},
+			{
+				"name": "独山县",
+				"adCode": "0854",
+				"cityCode": "522726"
+			},
+			{
+				"name": "都匀市",
+				"adCode": "0854",
+				"cityCode": "522701"
+			},
+			{
+				"name": "敦化市",
+				"adCode": "1433",
+				"cityCode": "222403"
+			},
+			{
+				"name": "敦煌市",
+				"adCode": "0937",
+				"cityCode": "620982"
+			}
+		]
+	},
+	{
 		"letter": "E",
 		"citylist": [
 			{
@@ -1563,10 +1888,6 @@ const address =[
 				"cityCode": "141082"
 			}
 		]
-	},
-	{
-		"letter": "I",
-		"citylist": []
 	},
 	{
 		"letter": "J",
@@ -3004,10 +3325,6 @@ const address =[
 		]
 	},
 	{
-		"letter": "O",
-		"citylist": []
-	},
-	{
 		"letter": "P",
 		"citylist": [
 			{
@@ -4296,14 +4613,6 @@ const address =[
 				"cityCode": "150122"
 			}
 		]
-	},
-	{
-		"letter": "U",
-		"citylist": []
-	},
-	{
-		"letter": "V",
-		"citylist": []
 	},
 	{
 		"letter": "W",

@@ -128,11 +128,13 @@ export default {
 
       trainTypes: [
         {
-          name: '高铁(G)/动车(D)',
+          name: '高铁(G)/动车(D)/城铁(C)',
+          trainType:1,
           checked: false
         },
         {
-          name: '普通车(K/T/Z)',
+          name: '普通车(K/T/Z/其他)',
+          trainType:2,
           checked: false
         }
       ],

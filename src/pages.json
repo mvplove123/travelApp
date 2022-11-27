@@ -9,7 +9,7 @@
         // "navigationBarTitleText": "鲸鱼旅行",
         "navigationStyle": "custom",
         // 隐藏系统导航栏
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "black"
         // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
 
         // "enablePullDownRefresh": false
@@ -20,7 +20,7 @@
       "style": {
         "navigationStyle": "custom",
         // 隐藏系统导航栏
-        "navigationBarTextStyle": "white",
+        "navigationBarTextStyle": "black",
         // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
 
         "navigationBarTitleText": ""

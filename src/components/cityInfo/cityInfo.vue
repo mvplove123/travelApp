@@ -86,7 +86,7 @@
     <u-divider></u-divider>
 
     <!-- 当地天气 -->
-    <view v-if="cityDetail.weatherInfoList.length>0"
+    <view v-if="cityDetail.weatherInfoList"
           class="w-11/12 h-auto  flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
       <view class=" m-2">
         <text class="text-xl	font-sans  font-bold tracking-normal text-[#636363]">当地天气</text>
@@ -175,7 +175,7 @@
 
     <u-divider></u-divider>
     <!-- 当地美食 -->
-    <view v-if="cityDetail.foodInfoList.length>0"
+    <view v-if="cityDetail.foodInfoList && cityDetail.foodInfoList.length>0"
           class="w-11/12 h-auto flex flex-shrink-0 flex-col bg-cover rounded  bg-white	">
       <view class=" m-2">
         <text class="text-xl font-bold	font-sans text-[#636363]">当地美食</text>
