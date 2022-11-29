@@ -1,5 +1,5 @@
 <template>
-  <view class=" bg-[#EFF0F5]  w-full h-full  flex flex-col align-baseline my-2 items-center">
+  <view class=" bg-[#EFF0F5]  w-full h-full  flex flex-col align-baseline items-center">
 
     <!-- 滚动图 -->
     <view class=" w-full h-30 bg-[#34D399] ">
@@ -232,11 +232,12 @@
         </view>
       </view>
 
-
-
-
-
     <u-divider text="已经到底了" lineColor="#303D4E"></u-divider>
+
+
+
+
+
 
   </view>
 

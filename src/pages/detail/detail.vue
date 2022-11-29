@@ -59,7 +59,7 @@
             <view class="w-full h-36  bg-[#fff] flex flex-row rounded-xl my-5">
               <!-- 图片 -->
               <view class="w-4/12	 h-full rounded-xl flex justify-center items-center bg-[#fff]">
-                <image class="w-11/12 h-full rounded-xl" :src="item.cityImg"/>
+                <image class="w-11/12 h-full rounded-xl"  mode="aspectFill"  :src="item.cityImg"/>
                 <view>
                 </view>
               </view>

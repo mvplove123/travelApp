@@ -30,20 +30,7 @@
       }
     },
 
-
-
-
-
-
-
-
-
-
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-
-
-
-
     {
       "path": "pages/trainScheduleList/trainScheduleList",
       "style": {
@@ -51,7 +38,6 @@
         "enablePullDownRefresh": false
       }
     },
-
     {
       "path": "pages/cityList/cityList",
       "style": {
@@ -82,14 +68,14 @@
     "list": [
       {
         "pagePath": "pages/homePage/homePage",
-        "iconPath": "static/img/tabbar/detail.png",
-        "selectedIconPath": "static/img/tabbar/detailActive.png",
+        "iconPath": "static/img/tabbar/homePage.png",
+        "selectedIconPath": "static/img/tabbar/homePageFill.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/me/me",
         "iconPath": "static/img/tabbar/me.png",
-        "selectedIconPath": "static/img/tabbar/meActive.png",
+        "selectedIconPath": "static/img/tabbar/meFill.png",
         "text": "我的"
       }
     ]
