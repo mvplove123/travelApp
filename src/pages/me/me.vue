@@ -31,7 +31,7 @@
       </view>
 
       <view class="mt-2">
-        <u-textarea v-model="value" placeholder="建议与反馈" count ></u-textarea>
+        <u-textarea v-model="value" placeholder="建议与反馈" count confirmType="done"></u-textarea>
         <u-button text="提交" type="primary" size="small"></u-button>
       </view>
 
