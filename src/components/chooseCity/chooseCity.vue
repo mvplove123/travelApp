@@ -22,7 +22,7 @@
 			<view class="text-l text-[#949494] ml-2 mt-2">定位/最近访问</view>
 
 			<view class="flex flex-row w-11/12">
-				<view class="w-2/5 m-2" v-if="!locationAddress">
+				<view class="w-2/5 m-2" v-if="!locationAddress.name">
 					<view
 						class="flex flex-row pt-1 pb-1 justify-around border-solid border border-[#DEDEDF] text-center rounded">
 						<view class="text-xs -mr-2  pt-1 pb-1">
@@ -31,10 +31,10 @@
 						<u-icon name="reload" color="#70A3F3" size="16"></u-icon>
 					</view>
 				</view>
-				<view class="w-1/5 m-2" v-else>
+				<view class="w-1/5 m-2" v-else @click="pickCity(locationAddress)">
 					<view class="flex flex-row pt-1 pb-1 justify-around border-solid border border-[#DEDEDF] rounded ">
 						<u-icon name="map" color="#F4D245" size="16"></u-icon>
-						<text class="text-xs pt-1 pb-1">{{ locationAddress }}</text>
+						<text class="text-xs pt-1 pb-1">{{ locationAddress.name }}</text>
 					</view>
 				</view>
 			</view>
@@ -92,17 +92,21 @@
 				v-if="queryCityList.length < 1"></u-empty>
 		</view>
 
+<!--    调用组件-->
+    <cityLocation @loadAddress="getLocation()"></cityLocation>
 
 
-	</view>
+  </view>
 
 </template>
 
 <script>
 	import address from './address.js'
-
+  import cityLocation from "@/components/cityLocation/cityLocation";
 	export default {
-
+    components: {
+      cityLocation
+    },
 		name: "chooseCity",
 
 		props: {
@@ -120,8 +124,12 @@
 		data() {
 			return {
 			
-				locationAddress: '北京市',
-				addressName: '',
+				locationAddress: {
+          id: '',
+          spell: '',
+          name: ''
+        },
+
 				indexList: [],
 				itemArr: [],
 				allCityList: [],
@@ -134,7 +142,7 @@
 					},
 					{
 						id: 1,
-						spell: 'shanghai',
+						spell: 'beijingshi',
 						name: '北京市'
 					},
 					{
@@ -185,11 +193,17 @@
 			this.initData()
 		},
 		methods: {
+      // 页面加载就会触发
+      getLocation(address){
+        // address就是组件传出的具体位置
+        this.locationAddress.name = address
+        console.info("locationAddress", this.locationAddress)
+      },
 			initData() {
-				console.info("chooseCity")
-				let list = address 
+				let list = address
 				let cityIndex = []
 				let cityItemArr = []
+
 
 				for (const key in address) {
 					this.indexList.push(address[key].letter)

@@ -81,20 +81,32 @@ export default {
     },
     exit() {
       this.logout();
-      this.$refs.uTips.show({
-        title: '退出成功',
-        type: 'warning',
+      this.$refs.uToast.show({
+        message: '退出成功',
+        type: 'success',
         duration: 1000,
       });
       setTimeout(function() {
+
+
+        // this.$Router.push({
+        //   path: '/pages/homePage/homePage',
+        // });
+
+
+        //
         uni.redirectTo({
-          url: '../login/index'
+          url: '/pages/homePage/homePage',
+          complete:(res)=>{
+            console.log("跳转结果",res)
+          }
         })
       },1500);
     },
     modelConfirm() {
       uni.redirectTo({
-        url: '../login/index'
+        url: '../homePage/homePage'
+
       })
     },
     // 跳转至关于
@@ -130,19 +142,5 @@ export default {
 </script>
 
 <style lang="scss">
-page{
-  background-color: #ededed;
-}
 
-.camera{
-  width: 54px;
-  height: 44px;
-
-  &:active{
-    background-color: #ededed;
-  }
-}
-.user-box{
-  background-color: #fff;
-}
 </style>

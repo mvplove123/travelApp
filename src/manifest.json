@@ -58,6 +58,12 @@
     "lazyCodeLoading": "requiredComponents",
     "setting": {
       "urlCheck": true
+    },
+    "usingComponents" : true,
+    "permission" : {
+      "scope.userLocation" : {
+        "desc" : "基于位置作为出发城市查询"
+      }
     }
   },
   "mp-alipay": {

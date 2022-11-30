@@ -234,29 +234,19 @@
 
     <u-divider text="已经到底了" lineColor="#303D4E"></u-divider>
 
-<!--    <view>-->
-<!--      <u-popup :show="chooseCityFlag" @close="closeShowCityList"-->
-<!--               @open="openShowCityList(cityTitleName)" mode='right'>-->
-
-
-<!--      </u-popup>-->
-
-<!--    </view>-->
-
     <view>
       <u-toast ref="uToast" />
     </view>
 
-
-
-
-
+    <cityLocation @loadAddress="getLocation()"></cityLocation>
   </view>
 
 </template>
 
 <script>
 import chooseCity from '@/components/chooseCity/chooseCity.vue'
+import cityLocation from "@/components/cityLocation/cityLocation";
+import amap from '@/common/amap-wx.130';
 
 import dayjs from 'dayjs'
 import config from "@/common/config";
@@ -265,10 +255,14 @@ import {mapState, mapMutations} from 'vuex';
 
 export default {
   components: {
-    chooseCity
+    chooseCity,cityLocation
   },
   data() {
     return {
+      amapPlugin: null,
+      gaodekey: 'df7259c59601031d6dee0a6656bd26a2',
+      address: "", // 已经获取到的位置
+
       userInfo: {
         openId: '',
         nickname: '',
@@ -288,7 +282,7 @@ export default {
       departDateStr: '',
       dateNumStr: '',
       week: '',
-      departCity: '北京市',
+      departCity: '',
       targetCity: '不限',
       showCalendar: false,
       chooseCityFlag: false,
@@ -309,7 +303,6 @@ export default {
       sceneryStar:'OA',
       scenerySore:'0',
       sceneryDesc:'',
-      currentCity: '杭州市',
       cityTitleName: '',
       departCityChooseFlag: false,
       targetCityChooseFlag: false,
@@ -328,13 +321,14 @@ export default {
     };
   },
 
-  onLoad() {
 
+  onLoad() {
     this.handleTimeForm(dayjs().format('YYYY-MM-DD'))
-    this.init()
     this.loginAuth()
   },
+
   methods: {
+    ...mapMutations(['login']),
     confirm(e) {
       let date = dayjs()
 
@@ -443,7 +437,11 @@ export default {
       }
     },
     init() {
-      this.queryCityInfo('北京市')
+      if(this.departCity){
+        this.queryCityInfo(this.departCity)
+      }else{
+        this.queryCityInfo('北京市')
+      }
     },
 
 
@@ -526,14 +524,11 @@ export default {
         title: '温馨提示',
         content: '亲，授权微信登录后才能正常使用小程序功能',
         success(res) {
-          console.log(res)
           //如果用户点击了确定按钮
           if (res.confirm) {
             that.getUserInfo()
-
           } else if (res.cancel) {
             //如果用户点击了取消按钮
-            console.log(3);
             uni.showToast({
               title: '您拒绝了请求,不能正常使用小程序',
               icon: 'error',
@@ -558,12 +553,11 @@ export default {
       // 获取openId
       await this.getOpenId(code)
       // 登录
-      // await this.wxLogin()
+      await this.wxLogin()
     },
 
     // 适配微信获取用户信息
     async getUserProfile() {
-      console.log("微信登录获取用户信息")
       return new Promise((resolve, reject) => {
         // TODO 调用前检查用户是否已注册
         uni.getUserProfile({
@@ -588,56 +582,34 @@ export default {
     async wxLogin() {
 
 
-    //   var params = {
-    //     openId : this.userInfo.openId,
-    //     username: 'WT_' + Math.random().toString(36).substr(4),
-    //     nickname: this.userInfo.nickname,
-    //     sex: this.userInfo.sex,
-    //     avatarUrl: this.userInfo.avatarUrl
-    //   }
-    //   this.$http.httpGet(config.wxLogin,
-    //       params
-    //   ).then(res => {
-    //
-    //     if (res.success == true){
-    //       this.userInfo.openId = res.data.openid
-    //       console.log('openid',this.userInfo)
-    //     }else {
-    //       console.log("查询openid异常",res)
-    //     }
-    //   })
-    // }
-
-
-
-
-
-
-      // 获取到用户信息后，请求登录
-      await this.$u.api.wxLogin({
+      var params = {
         openId : this.userInfo.openId,
         username: 'WT_' + Math.random().toString(36).substr(4),
         nickname: this.userInfo.nickname,
         sex: this.userInfo.sex,
         avatarUrl: this.userInfo.avatarUrl
-      }).then(res => {
-        this.login(res);
-        this.$isResolve();
-        this.$refs.uTips.show({
-          title: '登录成功',
-          duration: 1000,
-        });
-        // setTimeout(function() {
-        //   uni.switchTab({
-        //     url: '/pages/detail/index'
-        //   });
-        // },1500);
+      }
+      await this.$http.httpPost(config.wxLogin,
+          params
+      ).then(res => {
+
+        if (res.success == true){
+          this.userInfo.openId = res.data.openid
+          this.login(res.data);
+          this.$isResolve();
+          this.$refs.uToast.show({
+            message: '登录成功',
+            type: 'success'
+          });
+
+        }else {
+          console.log("登录异常",res)
+        }
       })
     },
+
     // 获取服务商
     getProvider() {
-      console.log("getProvider")
-
       return new Promise((resolve, reject) => {
 
         uni.getProvider({
@@ -672,20 +644,26 @@ export default {
       var params = {
         code: code,
       }
-      this.$http.httpGet(config.queryOpenId,
+      await this.$http.httpGet(config.queryOpenId,
           params
       ).then(res => {
 
         if (res.success == true){
           this.userInfo.openId = res.data.openid
-          console.log('openid',this.userInfo)
         }else {
           console.log("查询openid异常",res)
         }
       })
-    }
+    },
 
+    // 页面加载就会触发
+    getLocation(address){
+      this.departCity = address
+      this.init()
+    },
   },
+
+
 };
 </script>
 
