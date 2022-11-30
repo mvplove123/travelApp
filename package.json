@@ -64,6 +64,7 @@
     "@dcloudio/uni-stat": "^2.0.1-36420220922001",
     "@vue/shared": "^3.2.40",
     "core-js": "^3.25.3",
+    "dayjs": "^1.11.6",
     "regenerator-runtime": "^0.13.9",
     "uni-read-pages": "^1.0.5",
     "uni-simple-router": "2.0.7",
