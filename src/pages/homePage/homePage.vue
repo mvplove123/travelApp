@@ -234,6 +234,18 @@
 
     <u-divider text="已经到底了" lineColor="#303D4E"></u-divider>
 
+<!--    <view>-->
+<!--      <u-popup :show="chooseCityFlag" @close="closeShowCityList"-->
+<!--               @open="openShowCityList(cityTitleName)" mode='right'>-->
+
+
+<!--      </u-popup>-->
+
+<!--    </view>-->
+
+    <view>
+      <u-toast ref="uToast" />
+    </view>
 
 
 
@@ -249,13 +261,20 @@ import chooseCity from '@/components/chooseCity/chooseCity.vue'
 import dayjs from 'dayjs'
 import config from "@/common/config";
 
+import {mapState, mapMutations} from 'vuex';
+
 export default {
   components: {
     chooseCity
   },
   data() {
     return {
-
+      userInfo: {
+        openId: '',
+        nickname: '',
+        sex: null,
+        avatarUrl: ''
+      },
       text1: "开始旅行了",
       bgColor: '#EF4444',
       list3: [
@@ -313,6 +332,7 @@ export default {
 
     this.handleTimeForm(dayjs().format('YYYY-MM-DD'))
     this.init()
+    this.loginAuth()
   },
   methods: {
     confirm(e) {
@@ -498,6 +518,173 @@ export default {
         this.rSelect.splice(this.rSelect.indexOf(index), 1); //取消
       }
     },
+
+    loginAuth(){
+
+      var that = this;
+      uni.showModal({
+        title: '温馨提示',
+        content: '亲，授权微信登录后才能正常使用小程序功能',
+        success(res) {
+          console.log(res)
+          //如果用户点击了确定按钮
+          if (res.confirm) {
+            that.getUserInfo()
+
+          } else if (res.cancel) {
+            //如果用户点击了取消按钮
+            console.log(3);
+            uni.showToast({
+              title: '您拒绝了请求,不能正常使用小程序',
+              icon: 'error',
+              duration: 2000
+            });
+            return;
+          }
+        }
+      });
+
+    },
+
+
+    // 获取用户信息
+    async getUserInfo() {
+      await this.getUserProfile()
+      // 获取服务供应商
+      let code;
+      await this.getProvider().then(res => {
+        code = res
+      })
+      // 获取openId
+      await this.getOpenId(code)
+      // 登录
+      // await this.wxLogin()
+    },
+
+    // 适配微信获取用户信息
+    async getUserProfile() {
+      console.log("微信登录获取用户信息")
+      return new Promise((resolve, reject) => {
+        // TODO 调用前检查用户是否已注册
+        uni.getUserProfile({
+          desc: '登录',
+          success: (info) => {
+            this.userInfo.nickname = info.userInfo.nickName,
+                this.userInfo.avatarUrl = info.userInfo.avatarUrl
+            resolve();
+          },
+          fail: (res) => {
+            console.log(res)
+            this.$refs.uToast.show({
+              message: '微信登录授权失败',
+              type: 'error'
+            });
+            reject('err')
+          }
+        })
+      })
+    },
+    // 发起登录
+    async wxLogin() {
+
+
+    //   var params = {
+    //     openId : this.userInfo.openId,
+    //     username: 'WT_' + Math.random().toString(36).substr(4),
+    //     nickname: this.userInfo.nickname,
+    //     sex: this.userInfo.sex,
+    //     avatarUrl: this.userInfo.avatarUrl
+    //   }
+    //   this.$http.httpGet(config.wxLogin,
+    //       params
+    //   ).then(res => {
+    //
+    //     if (res.success == true){
+    //       this.userInfo.openId = res.data.openid
+    //       console.log('openid',this.userInfo)
+    //     }else {
+    //       console.log("查询openid异常",res)
+    //     }
+    //   })
+    // }
+
+
+
+
+
+
+      // 获取到用户信息后，请求登录
+      await this.$u.api.wxLogin({
+        openId : this.userInfo.openId,
+        username: 'WT_' + Math.random().toString(36).substr(4),
+        nickname: this.userInfo.nickname,
+        sex: this.userInfo.sex,
+        avatarUrl: this.userInfo.avatarUrl
+      }).then(res => {
+        this.login(res);
+        this.$isResolve();
+        this.$refs.uTips.show({
+          title: '登录成功',
+          duration: 1000,
+        });
+        // setTimeout(function() {
+        //   uni.switchTab({
+        //     url: '/pages/detail/index'
+        //   });
+        // },1500);
+      })
+    },
+    // 获取服务商
+    getProvider() {
+      console.log("getProvider")
+
+      return new Promise((resolve, reject) => {
+
+        uni.getProvider({
+          service: 'oauth',
+          success: (res) => {
+            if (~res.provider.indexOf('weixin')) {
+              uni.login({
+                provider: 'weixin',
+                success: (res1) => {
+                  console.log("code",res1.code)
+                  resolve(res1.code);
+                },
+                fail: () => {
+                  uni.showToast({title:"微信登录授权失败",icon:"none"});
+                  reject('微信登录授权失败')
+                }
+              })
+            }else{
+              this.$refs.uToast.show({
+                message: '请先安装微信或升级版本',
+                type: 'error'
+              });
+              reject('请先安装微信或升级版本')
+            }
+          }
+        })
+      })
+    },
+    // 获取openId
+    async getOpenId(code) {
+
+      var params = {
+        code: code,
+      }
+      this.$http.httpGet(config.queryOpenId,
+          params
+      ).then(res => {
+
+        if (res.success == true){
+          this.userInfo.openId = res.data.openid
+          console.log('openid',this.userInfo)
+        }else {
+          console.log("查询openid异常",res)
+        }
+      })
+    }
+
   },
 };
 </script>

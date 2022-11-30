@@ -7,6 +7,10 @@ export default {
 
 	queryCityStationList : "travel/r/queryCityStationList",
 
+	queryOpenId: "/travel/wx/queryOpenId",
+
+	wxLogin: "/travel/wx/login",
+
 
 	web_name: "网站名称", 
 	
