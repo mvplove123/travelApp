@@ -152,32 +152,32 @@
 					},
 					{
 						id: 3,
-						spell: 'shanghai',
+						spell: 'wuhanshi',
 						name: '武汉市'
 					},
 					{
 						id: 4,
-						spell: 'shanghai',
+						spell: 'hangzhoushi',
 						name: '杭州市'
 					},
 					{
 						id: 5,
-						spell: 'shanghai',
+						spell: 'chongqingshi',
 						name: '重庆市'
 					},
 					{
 						id: 6,
-						spell: 'shanghai',
+						spell: 'nanjingshi',
 						name: '南京市'
 					},
 					{
 						id: 7,
-						spell: 'shanghai',
+						spell: 'guangzhoushi',
 						name: '广州市'
 					},
 					{
 						id: 8,
-						spell: 'shanghai',
+						spell: 'shenzhenshi',
 						name: '深圳市'
 					}
 				], //热门城市
@@ -192,7 +192,8 @@
 		mounted() {
 			this.initData()
 		},
-		methods: {
+
+    methods: {
       // 页面加载就会触发
       getLocation(address){
         // address就是组件传出的具体位置
@@ -229,11 +230,6 @@
 			},
 
 			pickCity(e) {
-				// uni.showToast({
-				// 	title: `选中${e.name},模拟返回`,
-				// 	duration: 2000
-				// })
-				
 				this.$emit('pickedCity',e)
 
 				
