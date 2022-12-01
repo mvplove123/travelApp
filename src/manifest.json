@@ -62,9 +62,10 @@
     "usingComponents" : true,
     "permission" : {
       "scope.userLocation" : {
-        "desc" : "基于位置作为出发城市查询"
+        "desc" : "你的位置信息将用于小程序位置接口的效果展示"
       }
-    }
+    },
+    "requiredPrivateInfos": ["getLocation", "chooseLocation"]
   },
   "mp-alipay": {
     "usingComponents": true

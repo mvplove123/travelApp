@@ -39,13 +39,6 @@
       }
     },
     {
-      "path": "pages/cityList/cityList",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
       "path": "pages/me/me",
       "style": {
         "navigationBarTitleText": "我的",
