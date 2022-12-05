@@ -24,14 +24,6 @@
         <view class="flex flex-col ml-4" @click="openShowCityList('出发城市选择')">
           <text class="text-[#C1C1C1] text-xs	">出发城市</text>
           <text class="text-2xl mt-1 font-medium">{{ departCity }}</text>
-          <!--             弹窗内容信息-->
-          <u-popup :show="chooseCityFlag" @close="closeShowCityList"
-                   @open="openShowCityList(cityTitleName)" mode='right'>
-
-            <scroll-view :scroll-top="0" scroll-y="true" class=" bg-[#EFF0F5] w-screen h-screen  rounded-md mt-8">
-              <chooseCity :cityTitleName="cityTitleName" @pickedCity="change"></chooseCity>
-            </scroll-view>
-          </u-popup>
         </view>
         <view class=" mt-5 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500">
           <!-- 图片 -->
@@ -66,15 +58,6 @@
       </view>
       <u-line></u-line>
 
-
-      <!--        &lt;!&ndash; 复选框 &ndash;&gt;-->
-      <!--        <view class="flex flex-row m-4 h-5 ">-->
-      <!--          <u-checkbox-group placement="row" iconPlacement="left" v-model="transportType">-->
-      <!--            <u-checkbox v-for="(item, index) in checkboxList" :key="index" :label="item.name"-->
-      <!--                        :name="item.type" activeColor="#70A3F3" labelColor="#C1C1C1">-->
-      <!--            </u-checkbox>-->
-      <!--          </u-checkbox-group>-->
-      <!--        </view>-->
       <view class="w-full  h-[15vh]  flex flex-row justify-center items-center">
         <view class=" h-auto  w-11/12 ">
           <u-button size="large" class="" color="#60A5FA" @click="jump">
@@ -244,7 +227,7 @@
 </template>
 
 <script>
-import chooseCity from '@/components/chooseCity/chooseCity.vue'
+
 import cityLocation from "@/components/cityLocation/cityLocation";
 import amap from '@/common/amap-wx.130';
 
@@ -255,14 +238,13 @@ import {mapState, mapMutations} from 'vuex';
 
 export default {
   components: {
-    chooseCity,cityLocation
+    cityLocation
   },
   data() {
     return {
       amapPlugin: null,
       gaodekey: 'df7259c59601031d6dee0a6656bd26a2',
       address: "", // 已经获取到的位置
-
       userInfo: {
         openId: '',
         nickname: '',
@@ -282,7 +264,7 @@ export default {
       departDateStr: '',
       dateNumStr: '',
       week: '',
-      departCity: '',
+      departCity: '七台河市',
       targetCity: '不限',
       showCalendar: false,
       chooseCityFlag: false,
@@ -304,6 +286,11 @@ export default {
       scenerySore:'0',
       sceneryDesc:'',
       cityTitleName: '',
+      posterInfo:{
+        cityTitleName:'',
+        posterFlag:null,
+        posterCity:'',
+      },
       departCityChooseFlag: false,
       targetCityChooseFlag: false,
       hotSceneryList: [],
@@ -324,16 +311,22 @@ export default {
 
   onLoad() {
     this.handleTimeForm(dayjs().format('YYYY-MM-DD'))
-    this.loginAuth()
+    // this.loginAuth()
+  },
+
+  onShow() {
+
+    // 监听地址
+    uni.$on('pickedCity', data => {
+      this.pickedCityConfirm(data)
+      uni.$off('pickedCity');
+    });
   },
 
   methods: {
     ...mapMutations(['login']),
     confirm(e) {
-      let date = dayjs()
-
       this.handleTimeForm(e[0])
-
       this.showCalendar = false
 
     },
@@ -349,24 +342,45 @@ export default {
 
     openShowCityList(titleName) {
       this.cityTitleName = titleName
-      this.chooseCityFlag = true;
+      // this.chooseCityFlag = true;
       if (titleName === '出发城市选择') {
         this.departCityChooseFlag = true
+        this.posterInfo.posterFlag = 0
+        this.posterInfo.posterCity = this.departCity
+        this.posterInfo.cityTitleName = titleName
       }
       if (titleName === '到达城市选择') {
         this.targetCityChooseFlag = true
+        this.posterInfo.posterFlag = 1
+        this.posterInfo.posterCity = this.targetCity
+        this.posterInfo.cityTitleName = titleName
       }
+
+      uni.navigateTo({
+        url:'/pages/selectCity/selectCity',
+        animationType: 'fade-in',
+        animationDuration: 200
+
+      });
+
     },
 
     closeShowCityList() {
       this.chooseCityFlag = false;
     },
-    change(data) {
+
+    leftClick(){
+      this.chooseCityFlag = false;
+    },
+
+    pickedCityConfirm(data) {
       if (this.departCityChooseFlag) {
+
         this.departCity = data.name
         this.departCityChooseFlag = false
         this.cityIntroduce = '出发城市介绍'
         this.queryCityInfo(data.name)
+
       }
 
       if (this.targetCityChooseFlag) {
@@ -380,7 +394,6 @@ export default {
           this.queryCityInfo(this.departCity)
         }
       }
-      this.closeShowCityList()
     },
 
     // 路由跳转

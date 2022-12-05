@@ -9,19 +9,19 @@
       <view class="w-full h-2/3 flex flex-col items-center">
 
         <!--      城市名称及top景点-->
-        <view class="w-11/12 h-1/2 flex flex-row items-center">
+        <view class="w-11/12 h-2/5 flex flex-row items-center">
 
-          <view class="flex flex-row w-auto h-1/4  flex-shrink-0	">
-            <text class="text-2xl	font-sans text-white text-center	bg-[#3D4144] bg-opacity-40 rounded">{{
+          <view class="flex flex-row w-auto h-2/5 mt-5 flex-shrink-0	text-2xl	font-sans text-white text-center	bg-[#3D4144] bg-opacity-40 rounded">
+            <text class="">{{
                 cityInfo.cityName
               }}
             </text>
           </view>
           <!-- 景区列表 -->
-          <view class=" w-auto h-1/4 flex flex-row  flex-wrap justify-start">
-            <view class="mx-0.5 p-0.5" v-for="(sceneryName,index) in cityInfo.sceneryList" :key="index">
+          <view class=" w-auto h-1/2  ml-3 mt-6 flex flex-row  flex-wrap	 overflow-hidden">
+            <view class="mx-0.5 mt-0.5 p-0.5 text-xs  text-white  bg-[#3D4144] bg-opacity-40	rounded" v-for="(sceneryName,index) in cityInfo.sceneryList" :key="index">
               <text
-                  class="text-xs  text-white  bg-[#3D4144] bg-opacity-40	rounded">
+                  class="">
                 {{ sceneryName }}
               </text>
             </view>
@@ -31,7 +31,7 @@
 
 
         <!-- 城市描述 -->
-        <view class="w-11/12 h-1/2  flex flex-row bg-gray-600 bg-opacity-40 p-1 rounded	">
+        <view class="w-11/12 h-1/2  flex flex-row bg-gray-600 bg-opacity-40 p-1 rounded	overflow-auto">
           <text class="w-full h-full text-white text-xs leading-normal	tracking-wide font-mono"> {{
               cityDetail.cityDesc
             }}

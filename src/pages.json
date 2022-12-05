@@ -1,8 +1,20 @@
 {
   "easycom": {
-    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue",
+    "tui-(.*)": "@/ui-components/thorui/tui-$1/tui-$1.vue"
   },
   "pages": [
+
+
+
+//
+//    {
+//      "path": "components/chooseCity/chooseCity",
+//      "style": {
+//        "navigationBarTitleText": "chooseCity索引",
+//        "enablePullDownRefresh": false
+//      }
+//    },
     {
       "path": "pages/homePage/homePage",
       "style": {
@@ -13,6 +25,13 @@
         // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
 
         // "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/selectCity/selectCity",
+      "style": {
+        "navigationBarTitleText": "索引",
+        "enablePullDownRefresh": false
       }
     },
     {
@@ -29,6 +48,21 @@
 
       }
     },
+    {
+      "path": "pages/jumpCity/jumpCity",
+      "style": {
+        "navigationStyle": "custom",
+        // 隐藏系统导航栏
+        "navigationBarTextStyle": "black",
+        // 状态栏字体为白色，只能为 white-白色，black-黑色 二选一
+
+        "navigationBarTitleText": ""
+        //        "enablePullDownRefresh": false,
+        //        "onReachBottomDistance": 50 // 上拉触底的单位，单位为px
+
+      }
+    },
+
 
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
