@@ -9,7 +9,7 @@ const store = new Vuex.Store({
 		userInfo: {
 			id: '',
 			name: '',
-			nike: '',
+			nickname: '',
 			token: '',
 			email: '',
 			sex: '',
@@ -23,7 +23,7 @@ const store = new Vuex.Store({
 			state.userInfo.id = userInfo.id;
 			state.userInfo.token = userInfo.token;
 			state.userInfo.name = userInfo.username;
-			state.userInfo.nike = userInfo.nickname;
+			state.userInfo.nickname = userInfo.nickname;
 			state.userInfo.email = userInfo.email;
 			state.userInfo.sex = userInfo.sex;
 			state.userInfo.avatarUrl = userInfo.avatarUrl;

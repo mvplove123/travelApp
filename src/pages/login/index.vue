@@ -4,7 +4,7 @@
 			<u-top-tips ref="uTips"></u-top-tips>
 		</view>
 		<view class="content">
-			<view class="title">欢迎登录简账</view>
+			<view class="title">欢迎登录鲸鱼旅行</view>
 			<view class="u-font-13">
 				<input class="u-border-bottom" type="text" v-model="username" placeholder="请输入用户名" />
 				<input class="u-border-bottom" type="password" v-model="password" placeholder="密码" />

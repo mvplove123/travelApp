@@ -131,7 +131,6 @@
               <view :class="{'bg-indigo-300	 bg-opacity-40 rounded text-red-600': departDate === weatherInfo.weatherDate}">
                 <view v-if="weatherInfo!=null" class="">
                   <text class="text-xs font-sans">{{ weatherInfo.week }}</text>
-                  <!--                <text class="text-xs-0.6 font-sans text-red-600" v-if="departDate === weatherInfo.weatherDate">出发</text>-->
                 </view>
                 <view v-if="weatherInfo!=null" class="">
                   <text class="text-xs font-sans">{{ weatherInfo.weatherDateStr }}</text>
@@ -249,7 +248,7 @@ export default {
         openId: '',
         nickname: '',
         sex: null,
-        avatarUrl: ''
+        avatarUrl: 'https://cdn.uviewui.com/uview/album/1.jpg'
       },
       text1: "开始旅行了",
       bgColor: '#EF4444',
@@ -259,7 +258,6 @@ export default {
         'https://i0.wp.com/travelprogrammer.com/wp-content/uploads/2022/08/wxsync-2022-08-4aaa745937174e4406fc45902c242103.jpeg?w=1290&ssl=1',
       ],
       list: [],
-      topPic: 'https://codefun-proj-user-res-1256085488.cos.ap-guangzhou.myqcloud.com/62b84e105a7e3f0310a9c09a/63266ef5d85c64001131d666/16634751967384036698.png',
       departDate: '',
       departDateStr: '',
       dateNumStr: '',
@@ -267,7 +265,6 @@ export default {
       departCity: '七台河市',
       targetCity: '不限',
       showCalendar: false,
-      chooseCityFlag: false,
       mode: 'single',
       transportType: [],
       // 基本案列数据
@@ -311,7 +308,7 @@ export default {
 
   onLoad() {
     this.handleTimeForm(dayjs().format('YYYY-MM-DD'))
-    // this.loginAuth()
+    this.getUserInfo()
   },
 
   onShow() {
@@ -342,7 +339,6 @@ export default {
 
     openShowCityList(titleName) {
       this.cityTitleName = titleName
-      // this.chooseCityFlag = true;
       if (titleName === '出发城市选择') {
         this.departCityChooseFlag = true
         this.posterInfo.posterFlag = 0
@@ -363,14 +359,6 @@ export default {
 
       });
 
-    },
-
-    closeShowCityList() {
-      this.chooseCityFlag = false;
-    },
-
-    leftClick(){
-      this.chooseCityFlag = false;
     },
 
     pickedCityConfirm(data) {
@@ -398,15 +386,31 @@ export default {
 
     // 路由跳转
     jump() {
-      this.$Router.push({
-        path: '/pages/detail/detail',
-        query: {
-          "departureCityName": this.departCity,
-          "departureDate": this.departDate,
-          "targetCityName": this.targetCity,
-          "cityStationList":this.cityStationList
-        }
-      });
+      if(this.departCity == "不限"){
+        this.$refs.uToast.show({
+          message: '出发城市需要指定，不能为不限',
+          type: 'error'
+        });
+      }
+      else if(this.departCity == this.targetCity){
+        this.$refs.uToast.show({
+          message: '出发城市不能与目标城市相同',
+          type: 'error'
+        });
+      } else{
+        this.$Router.push({
+          path: '/pages/detail/detail',
+          query: {
+            "departureCityName": this.departCity,
+            "departureDate": this.departDate,
+            "targetCityName": this.targetCity,
+            "cityStationList":this.cityStationList
+          }
+        });
+      }
+
+
+
     },
 
     handleTimeForm(dateFormatStr) {
@@ -557,7 +561,7 @@ export default {
 
     // 获取用户信息
     async getUserInfo() {
-      await this.getUserProfile()
+      // await this.getUserProfile()
       // 获取服务供应商
       let code;
       await this.getProvider().then(res => {
@@ -594,13 +598,10 @@ export default {
     // 发起登录
     async wxLogin() {
 
+      let username = 'WT_' + Math.random().toString(36).substr(4);
 
       var params = {
         openId : this.userInfo.openId,
-        username: 'WT_' + Math.random().toString(36).substr(4),
-        nickname: this.userInfo.nickname,
-        sex: this.userInfo.sex,
-        avatarUrl: this.userInfo.avatarUrl
       }
       await this.$http.httpPost(config.wxLogin,
           params
@@ -608,6 +609,8 @@ export default {
 
         if (res.success == true){
           this.userInfo.openId = res.data.openid
+          this.userInfo.nickname = res.data.nickname
+          this.userInfo.avatarUrl = res.data.avatarUrl
           this.login(res.data);
           this.$isResolve();
           this.$refs.uToast.show({

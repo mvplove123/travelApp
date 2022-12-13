@@ -14,7 +14,7 @@
         </view>
         <view class="flex flex-col w-3/5 h-auto ">
           <view class="text">{{nikeName}}</view>
-          <view class="text-xs mt-2">用户名:{{userName}}</view>
+          <u-icon name="edit-pen" color="#2979ff" size="28"></u-icon>
         </view>
         <view class="w-auto h-auto">
           <u-icon name="scan" color="#969799" size="28"></u-icon>
@@ -63,7 +63,7 @@ export default {
       show: false,
       content: '您还未登录',
       userName: 'jerry278867066',
-      nikeName: '天秤座',
+      nikeName: '',
       avatarUrl:'https://cdn.uviewui.com/uview/album/1.jpg'
     }
   },
@@ -76,7 +76,7 @@ export default {
       // 获取用户信息
       let userInfo = uni.getStorageSync('userInfo')
       this.userName = userInfo.name
-      this.nikeName = userInfo.nike
+      this.nikeName = userInfo.nikeName
       this.avatarUrl = userInfo.avatarUrl
     },
     exit() {

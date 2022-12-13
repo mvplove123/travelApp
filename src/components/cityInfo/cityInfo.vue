@@ -19,9 +19,9 @@
           </view>
           <!-- 景区列表 -->
           <view class=" w-auto h-1/2  ml-3 mt-6 flex flex-row  flex-wrap	 overflow-hidden">
-            <view class="mx-0.5 mt-0.5 p-0.5 text-xs  text-white  bg-[#3D4144] bg-opacity-40	rounded" v-for="(sceneryName,index) in cityInfo.sceneryList" :key="index">
+            <view class="mx-0.5 mt-0.5 p-0.5 h-1/2 text-xs  text-white  bg-[#3D4144] bg-opacity-40	rounded" v-for="(sceneryName,index) in cityInfo.sceneryList" :key="index">
               <text
-                  class="">
+                  class="my-auto">
                 {{ sceneryName }}
               </text>
             </view>
