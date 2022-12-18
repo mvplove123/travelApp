@@ -13,6 +13,8 @@ export default {
 
 	wxUserSave: "/travel/wx/updateUserInfo",
 
+	queryConfig: "/travel/config/queryConfig",
+
 
 	web_name: "网站名称", 
 	

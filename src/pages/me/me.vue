@@ -17,18 +17,19 @@
 <!--      个人信息-->
       <view class="mt-10 w-full h-[25vh] flex flex-row bg-transparent items-center rounded"  >
 
-        <view class="w-1/3 h-auto">
+        <view class="w-1/4 h-auto">
           <view  class="w-auto flex items-center justify-center">
-            <u-avatar :src="userInfo.avatarUrl" size="80"></u-avatar>
+            <u-avatar :src="userInfo.avatarUrl" size="60"></u-avatar>
           </view>
         </view>
-        <view class="flex flex-col w-1/3 h-auto ">
+        <view class="flex flex-col w-2/5 h-auto ">
           <view class="text-lg text-white" @click="wxlogin">{{userInfo.nickName}}</view>
-          <view class="text-sm text-white">{{userInfo.userName}}</view>
+<!--          <view class="text-sm text-white">{{userInfo.userName}}</view>-->
+          <view class=" text-xs font-bold text-[#D1D5DB]">鲸旅已经陪伴你{{userInfo.totalDays}}天了</view>
 
         </view>
         <view class="w-1/3 h-auto flex justify-around" @click="setUserInfo">
-          <view class="ml-3 text-xs text-red-600 font-bold	">设置头像昵称</view>
+          <view class="ml-3 text-xs text-[#F87171] font-bold	">设置头像昵称</view>
           <u-icon name="arrow-right" color="#969799" size="14"></u-icon>
         </view>
       </view>
@@ -77,7 +78,7 @@ export default {
         nickName: '未登录',
         avatarUrl: undefined,
         sex: '',
-        birthday: '',
+        totalDays: undefined,
         openId: '',
       },
       content: '您还未登录',
@@ -104,6 +105,7 @@ export default {
       this.userInfo.userName = userInfo.userName
       this.userInfo.nickName = userInfo.nickName
       this.userInfo.avatarUrl = userInfo.avatarUrl
+      this.userInfo.totalDays = userInfo.totalDays
     },
     exit() {
 

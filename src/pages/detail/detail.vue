@@ -186,6 +186,7 @@
 
 import config from "@/common/config.js";
 import filterSelect from '@/components/filterSelect/filterSelect.vue'
+import {mapState} from 'vuex';
 
 export default {
   components: {
@@ -233,17 +234,24 @@ export default {
       timeSort: '时间',
       defaultTabbar: null,
       sortWay: 0,
-      backgroundImage:'https://p1-q.mafengwo.net/s8/M00/E9/5A/wKgBpVYaIiOANRTrAAVuyFx4atE96.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
+      backgroundImage:'https://p1-q.mafengwo.net/s8/M00/E9/5A/wKgBpVYaIiOANRTrAAVuyFx4atE96.jpeg',
 
     }
   },
 
   onLoad() {
+
+    let travelConfig = uni.getStorageSync('travelConfig')
+    this.backgroundImage = travelConfig.detailImgInfo.imgUrl
     this.defaultTabbar = 1
     this.getDetailList();
     let that = this;
     this.queryCityStation(that.$Route.query.departureCityName);
   },
+  //
+  // computed: {
+  //   ...mapState(['travelConfig'])
+  // },
 
   methods: {
 
@@ -327,7 +335,6 @@ export default {
     getDetailList() {
       let that = this;
 
-      console.log("选择框",       this.defaultTabbar)
       // this.departureCityName = '北京市',
       //     this.departureDate = '2022-09-27',
       //     this.targetCityName = '不限',
