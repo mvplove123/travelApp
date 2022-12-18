@@ -6,15 +6,6 @@
   "pages": [
 
 
-
-//
-//    {
-//      "path": "components/chooseCity/chooseCity",
-//      "style": {
-//        "navigationBarTitleText": "chooseCity索引",
-//        "enablePullDownRefresh": false
-//      }
-//    },
     {
       "path": "pages/homePage/homePage",
       "style": {
@@ -27,6 +18,24 @@
         // "enablePullDownRefresh": false
       }
     },
+    {
+      "path": "pages/me/me",
+      "style": {
+//        "navigationBarTitleText": "我的",
+        "navigationStyle": "custom",
+        // 隐藏系统导航栏
+        "navigationBarTextStyle": "black"
+//        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/accountInfo/accountInfo",
+      "style": {
+        "navigationBarTitleText": "账户信息",
+        "enablePullDownRefresh": false
+      }
+    },
+
     {
       "path": "pages/selectCity/selectCity",
       "style": {
@@ -45,7 +54,6 @@
         "navigationBarTitleText": ""
         //        "enablePullDownRefresh": false,
         //        "onReachBottomDistance": 50 // 上拉触底的单位，单位为px
-
       }
     },
     {
@@ -59,23 +67,13 @@
         "navigationBarTitleText": ""
         //        "enablePullDownRefresh": false,
         //        "onReachBottomDistance": 50 // 上拉触底的单位，单位为px
-
       }
     },
-
-
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/trainScheduleList/trainScheduleList",
       "style": {
         "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/me/me",
-      "style": {
-        "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
       }
     }

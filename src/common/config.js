@@ -11,6 +11,8 @@ export default {
 
 	wxLogin: "/travel/wx/login",
 
+	wxUserSave: "/travel/wx/updateUserInfo",
+
 
 	web_name: "网站名称", 
 	

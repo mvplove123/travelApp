@@ -2,24 +2,16 @@
   <!--  外边框-->
   <view class="bg-[#EFF0F5]  w-full h-screen  flex flex-col items-center" @touchmove.stop.prevent="moveHandle">
 
-    <u-navbar :title=titleName @rightClick="rightClick" :autoBack="true" bgColor="#fff"></u-navbar>
+    <u-navbar :title=titleName @rightClick="rightClick" :autoBack="true" bgColor="transparent"></u-navbar>
 
     <!-- 导航栏 -->
 
-    <view class="w-full h-1/3  bg-blue-400 ">
+    <view class="w-full h-1/3 ">
 
       <!-- 图片栏 -->
-      <view class="flex flex-col w-full	h-full"
-            style=" background-image: url(http://file.shopro.top/imgs/group/group_list_bg.png)">
-      </view>
+        <view class="flex flex-col w-full	h-full	" :style="{ backgroundImage: `url(${backgroundImage})`,backgroundSize:'cover'}">
 
-      <!--      <view class="w-full h-full flex flex-col justify-center items-center">-->
-
-
-      <!-- 图片栏 -->
-      <!--        <view class="w-full h-full flex flex-shrink-0 flex-col bg-cover rounded	"-->
-      <!--              style=" background-image: url(https://p1-q.mafengwo.net/s14/M00/1B/5B/wKgE2l1FV8iAQ-kNAAhNZK2lPtY117.jpg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90)">-->
-      <!--        </view>-->
+        </view>
 
       <view class="-mt-24">
         <!-- 景区列表 -->
@@ -156,7 +148,7 @@
 
     <!-- 排序栏 -->
     <u-tabbar :value="defaultTabbar" @change="name => defaultTabbar =name" :fixed="true" :placeholder="true"
-              :safeAreaInsetBottom="true" :border="true">
+              :safeAreaInsetBottom="true" :border="true" activeColor="#16a085"	>
       <u-tabbar-item :text=timeSort :name=0 icon="clock" @click="clickTimeSort"></u-tabbar-item>
       <u-tabbar-item text="智能推荐" :name=1 icon="star-fill" dot @click="clickDefaultSort"></u-tabbar-item>
       <u-tabbar-item text="筛选" :name=2 icon="tags" @click="clickFilterSelect" :badge=badgeCount></u-tabbar-item>
@@ -240,8 +232,8 @@ export default {
       cityAllDepartureStations: [],
       timeSort: '时间',
       defaultTabbar: null,
-      sortWay: 0
-
+      sortWay: 0,
+      backgroundImage:'https://p1-q.mafengwo.net/s8/M00/E9/5A/wKgBpVYaIiOANRTrAAVuyFx4atE96.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
 
     }
   },

@@ -11,7 +11,7 @@
 
     <!-- 通知栏 -->
     <view class="w-full h-10 ">
-      <u-notice-bar :text="text1" mode="link"></u-notice-bar>
+      <u-notice-bar :text="text1" mode="link" bgcolor="#FCF5F0" color="#FBBF24"></u-notice-bar>
     </view>
 
 
@@ -34,7 +34,6 @@
           <text class="text-2xl mt-1 font-semibold">{{ targetCity }}</text>
         </view>
       </view>
-      <!--        <u-divider lineColor="#dcdfe6"></u-divider>-->
       <u-line></u-line>
 
 
@@ -60,21 +59,15 @@
 
       <view class="w-full  h-[15vh]  flex flex-row justify-center items-center">
         <view class=" h-auto  w-11/12 ">
-          <u-button size="large" class="" color="#60A5FA" @click="jump">
+          <u-button size="large" color="linear-gradient(to right, #16a085, #f4d03f)" shape="circle" @click="jump">
             <text class="text-l mt-1 font-semibold">查询</text>
           </u-button>
         </view>
       </view>
-
-
-
-
     </view>
 
     <!-- 当前目的地可去城市列表，只列第二天热门数据 -->
     <u-divider :text="cityIntroduce"></u-divider>
-
-<!--    <view v-if="cityDetail!=null">-->
 
       <!-- 城市说明 -->
       <view class="w-11/12 h-[30vh]  flex  flex-col bg-cover 	rounded-md items-center"
@@ -98,9 +91,6 @@
               <text class="text-sm font-sans  mr-2">{{ cityDetail.weatherInfoList[0].temperature }}</text>
             </view>
           </view>
-
-
-
         </view>
         <!-- 城市描述 -->
         <view class="w-11/12 h-auto   flex flex-row bg-gray-600 bg-opacity-40 justify-end items-center p-1 rounded">
@@ -140,7 +130,6 @@
           </view>
         </view>
       </view>
-
       <u-divider></u-divider>
 
       <!-- 热门景点 -->
@@ -188,7 +177,6 @@
         </view>
 
       </view>
-
       <u-divider></u-divider>
 
       <!-- 当地美食 -->
@@ -198,7 +186,7 @@
         </view>
 
         <!-- 美食列表 -->
-        <u-scroll-list >
+        <u-scroll-list indicatorActiveColor="#16a085">
           <view class="justify-between mx-2 my-1 text-center text-xs"  @click="changeFoodInfo(foodInfo,index)"   v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
             <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
                    :src="foodInfo.foodImg"></image>
@@ -228,8 +216,6 @@
 <script>
 
 import cityLocation from "@/components/cityLocation/cityLocation";
-import amap from '@/common/amap-wx.130';
-
 import dayjs from 'dayjs'
 import config from "@/common/config";
 
@@ -246,16 +232,16 @@ export default {
       address: "", // 已经获取到的位置
       userInfo: {
         openId: '',
-        nickname: '',
+        nickName: '',
         sex: null,
         avatarUrl: 'https://cdn.uviewui.com/uview/album/1.jpg'
       },
       text1: "开始旅行了",
       bgColor: '#EF4444',
       list3: [
-        'https://i0.wp.com/travelprogrammer.com/wp-content/uploads/2022/08/wxsync-2022-08-06b32ffbb2fd00c436ed51ae39847e61.jpeg?w=1290&ssl=1',
-        'https://i0.wp.com/travelprogrammer.com/wp-content/uploads/2022/08/wxsync-2022-08-a906246d7de585cdae1fc1b2fc13d41c.jpeg?w=1290&ssl=1',
-        'https://i0.wp.com/travelprogrammer.com/wp-content/uploads/2022/08/wxsync-2022-08-4aaa745937174e4406fc45902c242103.jpeg?w=1290&ssl=1',
+        'https://p1-q.mafengwo.net/s8/M00/E9/5E/wKgBpVYaIiiAaLplAAlJrUawqC426.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
+        'https://p1-q.mafengwo.net/s8/M00/E9/60/wKgBpVYaIiuAZqXTAAxeJMK4V-E10.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
+        'https://p1-q.mafengwo.net/s8/M00/E9/5A/wKgBpVYaIiOANRTrAAVuyFx4atE96.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
       ],
       list: [],
       departDate: '',
@@ -534,34 +520,8 @@ export default {
       }
     },
 
-    loginAuth(){
-
-      var that = this;
-      uni.showModal({
-        title: '温馨提示',
-        content: '亲，授权微信登录后才能正常使用小程序功能',
-        success(res) {
-          //如果用户点击了确定按钮
-          if (res.confirm) {
-            that.getUserInfo()
-          } else if (res.cancel) {
-            //如果用户点击了取消按钮
-            uni.showToast({
-              title: '您拒绝了请求,不能正常使用小程序',
-              icon: 'error',
-              duration: 2000
-            });
-            return;
-          }
-        }
-      });
-
-    },
-
-
     // 获取用户信息
     async getUserInfo() {
-      // await this.getUserProfile()
       // 获取服务供应商
       let code;
       await this.getProvider().then(res => {
@@ -573,53 +533,22 @@ export default {
       await this.wxLogin()
     },
 
-    // 适配微信获取用户信息
-    async getUserProfile() {
-      return new Promise((resolve, reject) => {
-        // TODO 调用前检查用户是否已注册
-        uni.getUserProfile({
-          desc: '登录',
-          success: (info) => {
-            this.userInfo.nickname = info.userInfo.nickName,
-                this.userInfo.avatarUrl = info.userInfo.avatarUrl
-            resolve();
-          },
-          fail: (res) => {
-            console.log(res)
-            this.$refs.uToast.show({
-              message: '微信登录授权失败',
-              type: 'error'
-            });
-            reject('err')
-          }
-        })
-      })
-    },
     // 发起登录
     async wxLogin() {
-
-      let username = 'WT_' + Math.random().toString(36).substr(4);
-
       var params = {
         openId : this.userInfo.openId,
       }
       await this.$http.httpPost(config.wxLogin,
           params
       ).then(res => {
-
         if (res.success == true){
           this.userInfo.openId = res.data.openid
-          this.userInfo.nickname = res.data.nickname
+          this.userInfo.nickName = res.data.nickname
           this.userInfo.avatarUrl = res.data.avatarUrl
           this.login(res.data);
           this.$isResolve();
-          this.$refs.uToast.show({
-            message: '登录成功',
-            type: 'success'
-          });
-
         }else {
-          console.log("登录异常",res)
+          uni.showToast({title:"微信登录失败",icon:"none"});
         }
       })
     },

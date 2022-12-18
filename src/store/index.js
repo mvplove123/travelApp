@@ -8,10 +8,10 @@ const store = new Vuex.Store({
 		hasLogin: false,
 		userInfo: {
 			id: '',
-			name: '',
-			nickname: '',
+			userName: '',
+			nickName: '',
 			token: '',
-			email: '',
+			birthday: '',
 			sex: '',
 			avatarUrl: '',
 			openId: ''
@@ -20,11 +20,10 @@ const store = new Vuex.Store({
 	mutations: {
 		login(state, userInfo) {
 			state.hasLogin = true;
-			state.userInfo.id = userInfo.id;
 			state.userInfo.token = userInfo.token;
-			state.userInfo.name = userInfo.username;
-			state.userInfo.nickname = userInfo.nickname;
-			state.userInfo.email = userInfo.email;
+			state.userInfo.userName = userInfo.userName;
+			state.userInfo.nickName = userInfo.nickName;
+			state.userInfo.birthday = userInfo.birthday;
 			state.userInfo.sex = userInfo.sex;
 			state.userInfo.avatarUrl = userInfo.avatarUrl;
 			state.userInfo.openId = userInfo.openId;

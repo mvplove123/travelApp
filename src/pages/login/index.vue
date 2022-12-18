@@ -45,6 +45,7 @@
 
 <script>
 	import {mapState, mapMutations} from 'vuex';
+  import config from "@/common/config";
 	
 	export default {
 		data() {
@@ -57,138 +58,125 @@
 				navbarHeight: 44,
 				userInfo: {
 					openId: '',
-					nickname: '',
+					nickName: '',
 					sex: null,
 					avatarUrl: ''
 				}
 			}
 		},
 		methods: {
-			...mapMutations(['login']),
-			submit() {
-				if(!this.$u.test.isEmpty(this.username) && !this.$u.test.isEmpty(this.password)) {
-					this.$u.api.login({
-						username: this.username,
-						password: this.password
-					}).then(res => {
-						this.login(res);
-						let userInfo = uni.getStorageSync("userInfo");
-						this.$refs.uTips.show({
-							title: '登录成功',
-							duration: 1000,
-							});
-						this.$isResolve();
-						setTimeout(function() {
-							uni.switchTab({
-							    url: '/pages/detail/index'
-							});
-						},1500);
-					})
-				} else{
-					// 提示
-					this.$refs.uToast.show({
-						title: '请输入账号密码',
-						type: 'error'
-					})
-				}
-			},
-			// 获取用户信息
-			async getUserInfo() {
-				await this.getUserProfile()
-				// 获取服务供应商
-				let code;
-				await this.getProvider().then(res => {
-					code = res
-				})
-				// 获取openId
-				await this.getOpenId(code)
-				// 登录
-				await this.wxLogin()
-			},
-			// 适配微信获取用户信息
-			async getUserProfile() {
-				return new Promise((resolve, reject) => {
-					// TODO 调用前检查用户是否已注册
-					uni.getUserProfile({
-						desc: '登录',
-						success: (info) => {
-							this.userInfo.nickname = info.userInfo.nickName,
-							this.userInfo.sex = info.userInfo.gender,
-							this.userInfo.avatarUrl = info.userInfo.avatarUrl
-							resolve();
-						},
-						fail: (res) => {
-							this.$refs.uToast.show({
-								title: '微信登录授权失败',
-								type: 'error'
-							});
-							reject('err')
-						}
-					})
-				})
-			},
-			// 发起登录
-			async wxLogin() {
-				// 获取到用户信息后，请求登录
-				await this.$u.api.wxLogin({
-					openId : this.userInfo.openId,
-					username: 'JZ_' + Math.random().toString(36).substr(4),
-					nickname: this.userInfo.nickname,
-					sex: this.userInfo.sex,
-					avatarUrl: this.userInfo.avatarUrl
-				}).then(res => {
-					this.login(res);
-					this.$isResolve();
-					this.$refs.uTips.show({
-						title: '登录成功',
-						duration: 1000,
-						});
-					setTimeout(function() {
-						uni.switchTab({
-						    url: '/pages/detail/index'
-						});
-					},1500);
-				})
-			},
-			// 获取服务商
-			getProvider() {
-				return new Promise((resolve, reject) => {
-					uni.getProvider({
-						service: 'oauth',
-						success: (res) => {
-							if (~res.provider.indexOf('weixin')) {
-								uni.login({
-									provider: 'weixin',
-									success: (res1) => {
-										resolve(res1.code);
-									},
-									fail: () => {
-										uni.showToast({title:"微信登录授权失败",icon:"none"});
-										reject('微信登录授权失败')
-									}
-								})
-							}else{
-								this.$refs.uToast.show({
-									title: '请先安装微信或升级版本',
-									type: 'error'
-								});
-								reject('请先安装微信或升级版本')
-							}
-						}
-					})
-				})
-			},
-			// 获取openId
-			async getOpenId(code) {
-				// 获取openId
-				await this.$u.api.getOpenId(code).then(res => {
-					this.userInfo.openId = res.openid
-				});
-			}
-		},
-		onLoad() {
-			
-		}
+      ...mapMutations(['login']),
+      submit() {
+        if (!this.$u.test.isEmpty(this.username) && !this.$u.test.isEmpty(this.password)) {
+          this.$u.api.login({
+            username: this.username,
+            password: this.password
+          }).then(res => {
+            this.login(res);
+            let userInfo = uni.getStorageSync("userInfo");
+            this.$refs.uTips.show({
+              title: '登录成功',
+              duration: 1000,
+            });
+            this.$isResolve();
+            setTimeout(function () {
+              uni.switchTab({
+                url: '/pages/detail/index'
+              });
+            }, 1500);
+          })
+        } else {
+          // 提示
+          this.$refs.uToast.show({
+            title: '请输入账号密码',
+            type: 'error'
+          })
+        }
+      },
+      // 获取用户信息
+      async getUserInfo() {
+        // 获取服务供应商
+        let code;
+        await this.getProvider().then(res => {
+          code = res
+        })
+        // 获取openId
+        await this.getOpenId(code)
+        // 登录
+        await this.wxLogin()
+      },
+      // 获取服务商
+      getProvider() {
+        return new Promise((resolve, reject) => {
+
+          uni.getProvider({
+            service: 'oauth',
+            success: (res) => {
+              if (~res.provider.indexOf('weixin')) {
+                uni.login({
+                  provider: 'weixin',
+                  success: (res1) => {
+                    console.log("code", res1.code)
+                    resolve(res1.code);
+                  },
+                  fail: () => {
+                    uni.showToast({title: "微信登录授权失败", icon: "none"});
+                    reject('微信登录授权失败')
+                  }
+                })
+              } else {
+                this.$refs.uToast.show({
+                  message: '请先安装微信或升级版本',
+                  type: 'error'
+                });
+                reject('请先安装微信或升级版本')
+              }
+            }
+          })
+        })
+      },
+      // 发起登录
+      async wxLogin() {
+        var params = {
+          openId: this.userInfo.openId,
+        }
+        await this.$http.httpPost(config.wxLogin,
+            params
+        ).then(res => {
+          if (res.success == true) {
+            this.userInfo.openId = res.data.openid
+            this.userInfo.nickName = res.data.nickname
+            this.userInfo.avatarUrl = res.data.avatarUrl
+            this.login(res.data);
+            this.$isResolve();
+          } else {
+            uni.showToast({title: "微信登录失败", icon: "none"});
+          }
+        })
+      },
+
+
+      // 获取openId
+      async getOpenId(code) {
+
+        var params = {
+          code: code,
+        }
+        await this.$http.httpGet(config.queryOpenId,
+            params
+        ).then(res => {
+
+          if (res.success == true) {
+            this.userInfo.openId = res.data.openid
+          } else {
+            this.$refs.uToast.show({
+              message: 'openId异常',
+              type: 'error'
+            });
+          }
+        })
+      },
+    }
 	};
 </script>
 

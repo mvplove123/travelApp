@@ -1,7 +1,7 @@
 <template>
 
 
-  <view class="w-full h-screen flex flex-col">
+  <view class="w-full h-screen flex flex-col bg-white">
 
 
     <view class="flex justify-center">
@@ -18,7 +18,7 @@
 
         <view class="flex flex-row gap-3">
           <view class="" v-for="(item, index) in trainTypes" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary"  :name="index" plainFill color="#111827"	  borderColor="#F5F5F5"
+            <u-tag :text="item.name" :plain="!item.checked"  :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="trainTypesClick">
             </u-tag>
           </view>
@@ -37,7 +37,7 @@
 
         <view class="grid grid-cols-3 gap-3 	">
           <view class="text-center" v-for="(item, index) in departureTimes" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" plainFill color="#111827"	  borderColor="#F5F5F5"
+            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="departureTimesClick">
             </u-tag>
           </view>
@@ -54,7 +54,7 @@
 
         <view class="grid grid-cols-3 gap-3 ">
           <view class="" v-for="(item, index) in arriveTimes" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" plainFill color="#111827"	  borderColor="#F5F5F5"
+            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="arriveTimesClick">
             </u-tag>
           </view>
@@ -70,8 +70,8 @@
         </view>
 
         <view class="grid grid-cols-3 gap-3">
-          <view class="justify-center" v-for="(item, index) in departureStations" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" plainFill color="#111827"	  borderColor="#F5F5F5"
+          <view class="justify-center " v-for="(item, index) in departureStations" :key="index">
+            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="departureStationsClick">
             </u-tag>
           </view>
@@ -85,10 +85,10 @@
     <view class="flex flex-row justify-between mt-5 w-11/12 mx-auto bottom-0">
 
       <view class="w-2/5 h-auto ">
-        <u-button text="重置" size="normal" @click="clearSelect"></u-button>
+        <u-button text="重置" size="normal" color="#F6F6F6" shape="circle" @click="clearSelect" customStyle="color:#1F2937"></u-button>
       </view>
       <view class="w-2/5 h-auto ">
-        <u-button type="primary" text="确定" size="normal" @click="confirmSelect"></u-button>
+        <u-button type="primary" text="确定" size="normal" color="#16a085" shape="circle" @click="confirmSelect" customStyle="color:#1F2937"></u-button>
       </view>
 
 
@@ -123,7 +123,7 @@ export default {
 
   data() {
     return {
-
+      selectBgColor:'#000',
       departCity: '北京市',
 
       trainTypes: [
