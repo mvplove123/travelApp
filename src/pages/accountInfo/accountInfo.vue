@@ -16,13 +16,6 @@
       <u-line></u-line>
 
 
-      <view class="item text-nr flex justify-between" @click="changeUserName">
-        <view class="label">账号</view>
-        <view class="content">{{ userInfo.userName }}</view>
-        <u-icon name="arrow-right" size="14" color="#666"></u-icon>
-      </view>
-      <u-line></u-line>
-
 
       <view class="item text-nr flex justify-between" @click="changeNickName">
         <view class="label">昵称</view>
@@ -93,7 +86,7 @@
             </u--form>
           </view>
           <view class="mt-10">
-          <u-button type="primary" text="确定" formType="submit" @click="changeNickNameConfirm" shape="circle"></u-button>
+          <u-button type="primary" text="确定" formType="submit" @click="changeNickNameConfirm" shape="circle"  color="linear-gradient(to right, #16a085, #f4d03f)"></u-button>
           </view>
         </view>
       </view>
