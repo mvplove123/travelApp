@@ -14,13 +14,18 @@ const store = new Vuex.Store({
 			birthday: '',
 			sex: '',
 			avatarUrl: '',
-			openId: ''
+			openId: '',
+			uploadKey: '',
+			uploadToken: '',
+
 		}
 	},
 	mutations: {
 		login(state, userInfo) {
 			state.hasLogin = true;
 			state.userInfo.token = userInfo.token;
+			state.userInfo.uploadKey = userInfo.uploadKey;
+			state.userInfo.uploadToken = userInfo.uploadToken;
 			state.userInfo.userName = userInfo.userName;
 			state.userInfo.nickName = userInfo.nickName;
 			state.userInfo.birthday = userInfo.birthday;

@@ -1,3 +1,5 @@
+import config from "@/common/config";
+
 export function msg(content,time=3000){
 	uni.showToast({
 		icon:'none',
@@ -157,4 +159,76 @@ function parseUrl(url,params){
 	}
 	
 	return string;
+}
+
+
+/**
+ * @description 上传图片
+ * @param  { String } path 选择的本地地址
+ */
+export function uploadFile(path,token, filename,key) {
+	return new Promise((resolve, reject) => {
+
+		console.log('uploadFile',path,token, filename,key,config.uploadPath);
+		uni.uploadFile({
+			url: config.uploadPath,//华东地区上传
+			filePath: path,
+			name: 'file',
+			formData: {
+				'key': filename,
+				'token': token,
+			},
+			// formData: {
+			// 	'key': key,//key值
+			// 	'token': token //七牛云token值
+			// },
+			success: (uploadFileRes) => {
+
+				console.log('uploadFileRes',uploadFileRes);
+				//uploadFileRes 返回了data是一个json字符串
+				// //拿到里面的key拼接上域名，再反出去就ok了
+				let strToObj=JSON.parse(uploadFileRes.data),
+					backUrl=  strToObj.key;
+				// data.success(backUrl);//反出去链接
+				uni.hideLoading();
+			},
+			fail: fail => {
+				uni.showToast({ title: "网络错误", icon: "none" });
+				data.fail(fail);//反出去错误信息
+				uni.hideLoading();
+			}
+		})
+
+
+
+
+
+
+
+
+
+		//
+		// uni.uploadFile({
+		// 	url: config.uploadPath,
+		// 	filePath: path,
+		// 	name: filename,
+		// 	header: {
+		// 		token
+		// 	},
+		// 	fileType: 'image',
+		// 	success: (res) => {
+		// 		console.log('uploadFile res ==> ', res)
+		// 		const data = JSON.parse(res.data)
+		// 		if (data.code == 1) {
+		// 			resolve(data.data)
+		// 		} else {
+		// 			reject()
+		// 		}
+		// 	},
+		// 	fail: (err) => {
+		// 		console.log('uploadFile', path, token, filename,err);
+		// 		reject()
+		// 	}
+		// })
+	})
 }
