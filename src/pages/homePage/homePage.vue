@@ -4,14 +4,14 @@
     <!-- 滚动图 -->
     <view class=" w-full h-30 bg-[#34D399] ">
 
-      <u-swiper :list="list3" indicator indicatorMode="dot" circular radius="0" height="400rpx">
+      <u-swiper :list="homeTopImgInfoList"  keyName="imgUrl" indicator indicatorMode="dot"  circular radius="0" height="400rpx">
       </u-swiper>
 
     </view>
 
     <!-- 通知栏 -->
-    <view class="w-full h-10 ">
-      <u-notice-bar :text="text1" mode="link" bgcolor="#FCF5F0" color="#FBBF24"></u-notice-bar>
+    <view  v-if="noticeMessageList && noticeMessageList.length>0" class="w-full h-10 ">
+      <u-notice-bar :text="noticeMessageList" mode="link"direction="column"  bgcolor="#FCF5F0" color="#FBBF24"></u-notice-bar>
     </view>
 
 
@@ -237,11 +237,25 @@ export default {
         avatarUrl: 'https://cdn.uviewui.com/uview/album/1.jpg'
       },
       text1: "开始旅行了",
+      noticeMessageList:[],
       bgColor: '#EF4444',
-      list3: [
-        'https://p1-q.mafengwo.net/s8/M00/E9/5E/wKgBpVYaIiiAaLplAAlJrUawqC426.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
-        'https://p1-q.mafengwo.net/s8/M00/E9/60/wKgBpVYaIiuAZqXTAAxeJMK4V-E10.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
-        'https://p1-q.mafengwo.net/s8/M00/E9/5A/wKgBpVYaIiOANRTrAAVuyFx4atE96.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
+
+      homeTopImgInfoList: [
+        {
+          "imgUrl": "https://p1-q.mafengwo.net/s8/M00/E9/5E/wKgBpVYaIiiAaLplAAlJrUawqC426.jpeg",
+          "imgContentLink": "",
+          "title": "与河图"
+        },
+        {
+          "imgUrl": "https://p1-q.mafengwo.net/s8/M00/E9/60/wKgBpVYaIiuAZqXTAAxeJMK4V-E10.jpeg",
+          "imgContentLink": "",
+          "title": "与河图2"
+        },
+        {
+          "imgUrl": "https://p1-q.mafengwo.net/s8/M00/E9/5A/wKgBpVYaIiOANRTrAAVuyFx4atE96.jpeg",
+          "imgContentLink": "",
+          "title": "与河图4"
+        }
       ],
       list: [],
       departDate: '',
@@ -295,6 +309,7 @@ export default {
   onLoad() {
     this.handleTimeForm(dayjs().format('YYYY-MM-DD'))
     this.getUserInfo()
+    this.getTravelConfig()
   },
 
   onShow() {
@@ -307,7 +322,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['login']),
+    ...mapMutations(['login','loadingTravelConfig']),
     confirm(e) {
       this.handleTimeForm(e[0])
       this.showCalendar = false
@@ -519,6 +534,29 @@ export default {
         this.rSelect.splice(this.rSelect.indexOf(index), 1); //取消
       }
     },
+
+    async getTravelConfig(){
+
+      var params = {
+      }
+      await this.$http.httpGet(config.queryConfig,
+          params
+      ).then(res => {
+        if (res.success == true){
+          console.log("配置查询",res.data)
+          this.homeTopImgInfoList = res.data.homeTopImgInfoList
+          for (let noticeMessage of res.data.noticeMessageList) {
+            this.noticeMessageList.push(noticeMessage.message)
+          }
+          this.loadingTravelConfig(res.data);
+          this.$isResolve();
+        }else {
+          uni.showToast({title:"查询基础配置失败",icon:"none"});
+        }
+      })
+
+    },
+
 
     // 获取用户信息
     async getUserInfo() {

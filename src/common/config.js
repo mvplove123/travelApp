@@ -1,5 +1,7 @@
 export default {
 
+	queryConfig: "/travel/config/queryConfig",
+
 
     queryCityList: "travel/r/queryArriveCityList",
 

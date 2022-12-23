@@ -16,13 +16,6 @@
       <u-line></u-line>
 
 
-      <view class="item text-nr flex justify-between" @click="changeUserName">
-        <view class="label">账号</view>
-        <view class="content">{{ userInfo.userName }}</view>
-        <u-icon name="arrow-right" size="14" color="#666"></u-icon>
-      </view>
-      <u-line></u-line>
-
 
       <view class="item text-nr flex justify-between" @click="changeNickName">
         <view class="label">昵称</view>
@@ -47,9 +40,17 @@
         <u-icon name="arrow-right" size="14" color="#666"></u-icon>
       </view>
       <u-line></u-line>
+
+      <view class="item text-nr flex justify-between">
+        <view class="label">注册时间</view>
+        <view class="content">{{ userInfo.createTime }}</view>
+      </view>
+
       <view class="mt-10">
         <u-button type="primary" text="保存" shape="circle" @click="wxUserSave"  color="linear-gradient(to right, #16a085, #f4d03f)" ></u-button>
       </view>
+
+
     </view>
 
 
@@ -85,7 +86,7 @@
             </u--form>
           </view>
           <view class="mt-10">
-          <u-button type="primary" text="确定" formType="submit" @click="changeNickNameConfirm" shape="circle"></u-button>
+          <u-button type="primary" text="确定" formType="submit" @click="changeNickNameConfirm" shape="circle"  color="linear-gradient(to right, #16a085, #f4d03f)"></u-button>
           </view>
         </view>
       </view>
@@ -120,6 +121,7 @@ export default {
         sex: '',
         birthday: '',
         openId: '',
+        createTime:undefined,
       },
       showUserName: false,
       showNickName: false,
@@ -220,7 +222,6 @@ export default {
     getUserInfo() {
       // 获取用户信息
       let userInfo = uni.getStorageSync('userInfo')
-      console.log("用户信息",userInfo)
       this.userInfo.userName = userInfo.userName
       this.form.userName = userInfo.userName
       this.form.nickName = userInfo.nickName
@@ -229,6 +230,7 @@ export default {
       this.userInfo.sex = userInfo.sex
       this.userInfo.birthday = userInfo.birthday
       this.userInfo.openId = userInfo.openId
+      this.userInfo.createTime = userInfo.createTime
     },
 
 
