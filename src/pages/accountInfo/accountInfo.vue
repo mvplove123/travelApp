@@ -109,6 +109,7 @@
 import config from "@/common/config";
 import dayjs from "dayjs";
 import {mapState, mapMutations} from 'vuex';
+import {uploadFile} from "@/common/utils";
 
 
 export default {
@@ -121,6 +122,8 @@ export default {
         sex: '',
         birthday: '',
         openId: '',
+        uploadKey: '',
+        uploadToken: '',
         createTime:undefined,
       },
       showUserName: false,
@@ -148,11 +151,6 @@ export default {
   methods: {
 
     ...mapMutations(['login']),
-
-
-    onChooseAvatar(e) {
-      this.userInfo.avatarUrl = e.detail.avatarUrl
-    },
 
 // 修改用户账号
     changeUserNameConfirm() {
@@ -204,11 +202,6 @@ export default {
       }
       return value
     },
-
-
-    changeUserName() {
-      this.showUserName = true
-    },
     changeNickName() {
       this.showNickName = true
     },
@@ -231,8 +224,53 @@ export default {
       this.userInfo.birthday = userInfo.birthday
       this.userInfo.openId = userInfo.openId
       this.userInfo.createTime = userInfo.createTime
+      this.userInfo.uploadKey = userInfo.uploadKey
+      this.userInfo.uploadToken = userInfo.uploadToken
     },
 
+
+
+
+    onChooseAvatar(e) {
+
+      if (e.detail.avatarUrl) {
+        this.uploadAvatar(e.detail.avatarUrl)
+      }
+    },
+
+    uploadAvatar(path){
+      uploadFile(path,this.userInfo.uploadToken,"accountAvatar/"+this.userInfo.userName,this.userInfo.uploadKey)
+          .then((res) => {
+            uni.hideLoading()
+            this.userInfo.avatarUrl = res+"?key="+dayjs().format("YYYYMMDDHHmmss");
+            this.login(this.userInfo);
+          })
+          .catch(() => {
+            uni.hideLoading()
+            uni.$u.toast('上传失败')
+          })
+    },
+    //
+    //
+    // // 发起登录
+    // async wxLogin() {
+    //   var params = {
+    //     openId : this.userInfo.openId,
+    //   }
+    //   await this.$http.httpPost(config.wxLogin,
+    //       params
+    //   ).then(res => {
+    //     if (res.success == true){
+    //       this.userInfo.openId = res.data.openid
+    //       this.userInfo.nickName = res.data.nickname
+    //       this.userInfo.avatarUrl = res.data.avatarUrl
+    //       this.login(res.data);
+    //       this.$isResolve();
+    //     }else {
+    //       uni.showToast({title:"微信登录失败",icon:"none"});
+    //     }
+    //   })
+    // },
 
     // 发起保存
     async wxUserSave() {
@@ -249,6 +287,10 @@ export default {
       ).then(res => {
 
         if (res.success == true) {
+
+          // this.wxLogin()
+
+          //重新拉去数据
           this.login(this.userInfo);
           this.$isResolve();
           this.$refs.uToast.show({

@@ -152,12 +152,12 @@ function parseUrl(url,params){
 	for(let i in params){
 		arr.push(i + "=" + params[i]);
 	}
-	
+
 	string = "/pages/" + url;
 	if(arr.length > 0){
 		string += "?" + arr.join("&");
 	}
-	
+
 	return string;
 }
 
@@ -169,7 +169,6 @@ function parseUrl(url,params){
 export function uploadFile(path,token, filename,key) {
 	return new Promise((resolve, reject) => {
 
-		console.log('uploadFile',path,token, filename,key,config.uploadPath);
 		uni.uploadFile({
 			url: config.uploadPath,//华东地区上传
 			filePath: path,
@@ -178,24 +177,25 @@ export function uploadFile(path,token, filename,key) {
 				'key': filename,
 				'token': token,
 			},
-			// formData: {
-			// 	'key': key,//key值
-			// 	'token': token //七牛云token值
-			// },
 			success: (uploadFileRes) => {
 
-				console.log('uploadFileRes',uploadFileRes);
-				//uploadFileRes 返回了data是一个json字符串
-				// //拿到里面的key拼接上域名，再反出去就ok了
-				let strToObj=JSON.parse(uploadFileRes.data),
-					backUrl=  strToObj.key;
-				// data.success(backUrl);//反出去链接
-				uni.hideLoading();
+                let strToObj=JSON.parse(uploadFileRes.data);
+                let backUrl=  config.file_app_web_url+strToObj.key;
+				console.log('uploadFile',backUrl);
+
+				resolve(backUrl)
+
+
+
+				//
+				// //uploadFileRes 返回了data是一个json字符串
+				// // //拿到里面的key拼接上域名，再反出去就ok了
+				// console.log('uploadFileRes',backUrl);
+				// uni.hideLoading();
 			},
 			fail: fail => {
-				uni.showToast({ title: "网络错误", icon: "none" });
-				data.fail(fail);//反出去错误信息
-				uni.hideLoading();
+				reject()
+
 			}
 		})
 

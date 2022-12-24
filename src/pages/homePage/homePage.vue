@@ -186,7 +186,7 @@
         </view>
 
         <!-- 美食列表 -->
-        <u-scroll-list indicatorActiveColor="#16a085">
+        <u-scroll-list >
           <view class="justify-between mx-2 my-1 text-center text-xs"  @click="changeFoodInfo(foodInfo,index)"   v-for="(foodInfo, index) in cityDetail.foodInfoList" :key="index">
             <image class="rounded-full h-16 w-16 flex items-center justify-center bg-cover my-2"
                    :src="foodInfo.foodImg"></image>

@@ -3,12 +3,7 @@
 
     <u-sticky offset-top="200">
 
-      <u-navbar
-          title="个人中心"
-          :autoBack="false"
-          bgColor="transparent"
-          :titleStyle="{color:'#fff'}"
-      >
+      <u-navbar title="个人中心" titleStyle="font-weight:bold" :autoBack="false" bgColor="transparent" :titleStyle="{color:'#fff'}">
       </u-navbar>
     </u-sticky>
 
@@ -65,6 +60,7 @@
 
 <script>
 import {mapState, mapMutations} from 'vuex';
+import dayjs from "dayjs";
 
 export default {
   data() {
@@ -153,12 +149,18 @@ export default {
     }
   },
   onShow() {
+
+
     // 等待登录成功
     if(!this.hasLogin) {
       this.show = true;
     } else{
       // 关闭提示
       this.show = false;
+      console.log("onshow",this.userInfo)
+
+
+
       this.getUserInfo();
     }
   }

@@ -18,7 +18,7 @@
 
         <view class="flex flex-row gap-3">
           <view class="" v-for="(item, index) in trainTypes" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked"  :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
+            <u-tag :text="item.name" :plain="!item.checked"  :name="index" :bgColor="[item.checked ? '#8CB769' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="trainTypesClick">
             </u-tag>
           </view>
@@ -37,7 +37,7 @@
 
         <view class="grid grid-cols-3 gap-3 	">
           <view class="text-center" v-for="(item, index) in departureTimes" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
+            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#8CB769' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="departureTimesClick">
             </u-tag>
           </view>
@@ -54,7 +54,7 @@
 
         <view class="grid grid-cols-3 gap-3 ">
           <view class="" v-for="(item, index) in arriveTimes" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
+            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#8CB769' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="arriveTimesClick">
             </u-tag>
           </view>
@@ -71,7 +71,7 @@
 
         <view class="grid grid-cols-3 gap-3">
           <view class="justify-center " v-for="(item, index) in departureStations" :key="index">
-            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#16a085' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
+            <u-tag :text="item.name" :plain="!item.checked" type="primary" :name="index" :bgColor="[item.checked ? '#8CB769' : '#F6F6F6']"	color="#1F2937" shape="circle"  borderColor="#F6F6F6"
                    @click="departureStationsClick">
             </u-tag>
           </view>
@@ -88,11 +88,8 @@
         <u-button text="重置" size="normal" color="#F6F6F6" shape="circle" @click="clearSelect" customStyle="color:#1F2937"></u-button>
       </view>
       <view class="w-2/5 h-auto ">
-        <u-button type="primary" text="确定" size="normal" color="#16a085" shape="circle" @click="confirmSelect" customStyle="color:#1F2937"></u-button>
+        <u-button type="primary" text="确定" size="normal" color="linear-gradient(to right, #16a085, #f4d03f)" shape="circle" @click="confirmSelect" customStyle="color:#1F2937"></u-button>
       </view>
-
-
-
 
     </view>
 

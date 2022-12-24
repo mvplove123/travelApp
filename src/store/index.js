@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {object} from "@dcloudio/vue-cli-plugin-uni/packages/postcss/tags";
-
+import dayjs from "dayjs";
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -35,20 +35,38 @@ const store = new Vuex.Store({
 			state.travelConfig.noticeMessageList = config.noticeMessageList
 			uni.setStorageSync('travelConfig', state.travelConfig);
 		},
+
 		login(state, userInfo) {
 			state.hasLogin = true;
 			state.userInfo.token = userInfo.token;
-			state.userInfo.uploadKey = userInfo.uploadKey;
-			state.userInfo.uploadToken = userInfo.uploadToken;
-			state.userInfo.userName = userInfo.userName;
-			state.userInfo.nickName = userInfo.nickName;
-			state.userInfo.birthday = userInfo.birthday;
-			state.userInfo.sex = userInfo.sex;
-			state.userInfo.avatarUrl = userInfo.avatarUrl;
+			if(userInfo.uploadKey){
+				state.userInfo.uploadKey = userInfo.uploadKey;
+			}
+			if (userInfo.uploadToken){
+				state.userInfo.uploadToken = userInfo.uploadToken;
+			}
+			if(userInfo.userName){
+				state.userInfo.userName = userInfo.userName;
+			}
+			if (userInfo.nickName) {
+				state.userInfo.nickName = userInfo.nickName;
+			}
+			if(userInfo.birthday){
+				state.userInfo.birthday = userInfo.birthday;
+			}
+			if(userInfo.sex){
+				state.userInfo.sex = userInfo.sex;
+			}
+			if(userInfo.avatarUrl){
+				state.userInfo.avatarUrl = userInfo.avatarUrl+"?key="+dayjs().format("YYYYMMDDHHmmss");
+			}
 			state.userInfo.openId = userInfo.openId;
-			state.userInfo.createTime=userInfo.createTime
-			state.userInfo.totalDays = userInfo.totalDays
-
+			if(userInfo.createTime){
+				state.userInfo.createTime=userInfo.createTime
+			}
+			if(userInfo.totalDays){
+				state.userInfo.totalDays = userInfo.totalDays
+			}
 			// 保存到缓存中
 			uni.setStorageSync('userInfo', state.userInfo);
 		},
