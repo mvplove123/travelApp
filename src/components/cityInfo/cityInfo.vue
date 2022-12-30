@@ -129,7 +129,7 @@
           :style="{ backgroundImage: `url(${hotSceneryBgImg})` }">
 
       <view class=" m-2">
-        <text class="text-2xl	font-sans text-white">热门景点</text>
+        <text class="text-xl	font-sans text-white tracking-normal font-bold bg-[#3D4144] bg-opacity-40 rounded p-0.5">热门景点</text>
       </view>
 
       <!-- 景区列表 -->
@@ -151,11 +151,11 @@
     }" itemStyle="padding-left: 15px; padding-right: 15px; height: 45px;"
               @click="changeSceneryBackImg"></u-tabs>
 
-      <view class="flex-1	 flex-col w-11/12 h-3/5 justify-start  items-end m-auto">
+      <view class="flex-1	 flex-col w-11/12 h-4/5 justify-start  items-end m-auto relative">
 
-        <view class="flex flex-col w-full h-3/5 mt-14 ">
+        <view class="flex flex-col w-full h-auto items-end absolute bottom-1">
 
-          <!--        级别分数-->
+<!--                  级别分数-->
           <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
             <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5">
               <text class="text-white  text-xs ">{{ sceneryStar }}</text>
@@ -163,9 +163,7 @@
             <view class="w-8 h-auto bg-blue-400 rounded">
               <text class="text-white font-medium text-xs	  ">{{ scenerySore }}</text>
             </view>
-
           </view>
-
           <view class="w-full h-2/5 overflow-auto">
             <text class="text-white text-xs bg-gray-600 bg-opacity-40 rounded ">{{ sceneryDesc }}</text>
           </view>

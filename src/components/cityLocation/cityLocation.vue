@@ -34,11 +34,10 @@ export default {
       // 成功获取位置
       _this.amapPlugin.getRegeo({
         success: (data) => {
-
-          let city = data[0].regeocodeData.addressComponent.province
+          let city = data[0].regeocodeData.addressComponent.city
           let province = data[0].regeocodeData.addressComponent.province
           let district = data[0].regeocodeData.addressComponent.district
-          if(city == null){
+          if(city == null || city.length == 0){
             _this.departCity = province
           }
           else if(district !=null && (district.endsWith('市') || district.endsWith('县') || district.endsWith('州') || district.endsWith('盟') || district.endsWith('旗'))){
@@ -47,10 +46,10 @@ export default {
             _this.departCity = city
 
           }
-          console.log(this.departCity, 'citLocaltion当前定位');
 
+          this.address = province +";"+ city +";"+ district;
           // 传出
-          _this.$emit("loadAddress",_this.departCity)
+          _this.$emit("loadAddress",_this.departCity,_this.address);
           uni.hideLoading();
         },
         // 获取位置失败

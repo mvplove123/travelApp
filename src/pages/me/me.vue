@@ -17,14 +17,14 @@
             <u-avatar :src="userInfo.avatarUrl" size="60"></u-avatar>
           </view>
         </view>
-        <view class="flex flex-col w-2/5 h-auto ">
+        <view class="flex flex-col w-1/2 h-auto ">
           <view class="text-lg text-white" @click="wxlogin">{{userInfo.nickName}}</view>
 <!--          <view class="text-sm text-white">{{userInfo.userName}}</view>-->
-          <view class=" text-xs font-bold text-[#D1D5DB]">鲸旅已经陪伴你{{userInfo.totalDays}}天了</view>
+          <view class=" text-xs font-bold text-[#D1D5DB]">虎豆旅行已经陪伴你{{userInfo.totalDays}}天了</view>
 
         </view>
-        <view class="w-1/3 h-auto flex justify-around" @click="setUserInfo">
-          <view class="ml-3 text-xs text-[#F87171] font-bold	">设置头像昵称</view>
+        <view class="w-2/5 h-auto flex justify-around" @click="setUserInfo">
+          <view class=" text-xs text-[#F87171] font-bold	">设置头像昵称</view>
           <u-icon name="arrow-right" color="#969799" size="14"></u-icon>
         </view>
       </view>
@@ -73,12 +73,24 @@ export default {
         userName: undefined,
         nickName: '未登录',
         avatarUrl: undefined,
-        sex: '',
         totalDays: undefined,
         openId: '',
       },
       content: '您还未登录',
     }
+  },
+  onShow() {
+    this.getUserInfo()
+
+    // // 等待登录成功
+    // if(!this.hasLogin) {
+    //   this.show = true;
+    // } else{
+    //   // 关闭提示
+    //   this.show = false;
+    //   console.log("onshow",this.userInfo)
+    //
+    // }
   },
   computed: {
     ...mapState(['hasLogin'])
@@ -102,6 +114,7 @@ export default {
       this.userInfo.nickName = userInfo.nickName
       this.userInfo.avatarUrl = userInfo.avatarUrl
       this.userInfo.totalDays = userInfo.totalDays
+      this.userInfo.openId = userInfo.openId
     },
     exit() {
 
@@ -147,23 +160,8 @@ export default {
         message: '分享功能即将上线'
       });
     }
-  },
-  onShow() {
-
-
-    // 等待登录成功
-    if(!this.hasLogin) {
-      this.show = true;
-    } else{
-      // 关闭提示
-      this.show = false;
-      console.log("onshow",this.userInfo)
-
-
-
-      this.getUserInfo();
-    }
   }
+
 }
 </script>
 

@@ -159,9 +159,9 @@
                 @click="changeSceneryBackImg"></u-tabs>
 
 
-        <view class="flex-1	 flex-col w-11/12 h-3/5 justify-start  items-end m-auto">
+        <view class="flex-1	 flex-col w-11/12 h-4/5 justify-start  items-end m-auto relative">
 
-          <view class="flex flex-col w-full h-3/5 mt-14 ">
+          <view class="flex flex-col w-full h-auto absolute bottom-1 ">
 
             <!--        级别分数-->
             <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
@@ -575,6 +575,7 @@ export default {
     async wxLogin() {
       var params = {
         openId : this.userInfo.openId,
+        address:this.address
       }
       await this.$http.httpPost(config.wxLogin,
           params
@@ -640,8 +641,10 @@ export default {
     },
 
     // 页面加载就会触发
-    getLocation(address){
-      this.departCity = address
+    getLocation(departCity,address){
+      this.departCity = departCity
+      this.address = address
+      console.log("address",address)
       this.init()
     },
   },

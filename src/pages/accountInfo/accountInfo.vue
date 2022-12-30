@@ -75,19 +75,20 @@
 
     <!-- 昵称修改组件 -->
     <u-popup :show="showNickName" mode="center" :closeable="true" round="10" @close="closeNickName">
-      <view class="w-[90vw] h-[25vh] flex mt-4 justify-center">
+      <view class="w-[90vw] h-auto flex mt-4 justify-center">
         <view class="w-11/12 h-auto">
           <view class=" text-base text-center text-[#2B2B2B]">修改昵称</view>
-          <view class="mt-10">
-            <u--form :model="form" ref="uForm" class="mt-8">
+          <view class="my-10">
+            <u--form :model="form" ref="uForm" class="my-8">
               <u-form-item prop="name" borderBottom>
                 <u-input type="nickname" v-model="form.nickName" placeholder="请输入昵称" clearable border="none"></u-input>
               </u-form-item>
             </u--form>
           </view>
-          <view class="mt-10">
-          <u-button type="primary" text="确定" formType="submit" @click="changeNickNameConfirm" shape="circle"  color="linear-gradient(to right, #16a085, #f4d03f)"></u-button>
+          <view class="mb-2">
+            <u-button type="primary" text="确定" formType="submit" @click="changeNickNameConfirm" shape="circle"  color="linear-gradient(to right, #16a085, #f4d03f)"></u-button>
           </view>
+
         </view>
       </view>
     </u-popup>

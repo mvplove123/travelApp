@@ -20,7 +20,7 @@ const store = new Vuex.Store({
 			uploadKey: '',
 			uploadToken: '',
 			createTime:'',
-			totalDays:undefined,
+			totalDays:'',
 		},
 		travelConfig: {
 			homeTopImgInfoList: object,
@@ -64,7 +64,7 @@ const store = new Vuex.Store({
 			if(userInfo.createTime){
 				state.userInfo.createTime=userInfo.createTime
 			}
-			if(userInfo.totalDays){
+			if(userInfo.totalDays!= null){
 				state.userInfo.totalDays = userInfo.totalDays
 			}
 			// 保存到缓存中
