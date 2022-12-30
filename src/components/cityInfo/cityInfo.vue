@@ -157,10 +157,10 @@
 
 <!--                  级别分数-->
           <view class="flex flex-row h-1/5 w-full text-center items-center m-1">
-            <view class="w-8 h-auto bg-gray-600  bg-opacity-40 rounded items-center mx-0.5">
+            <view class="w-auto h-auto bg-gray-600  bg-opacity-40 rounded items-center px-1.5">
               <text class="text-white  text-xs ">{{ sceneryStar }}</text>
             </view>
-            <view class="w-8 h-auto bg-blue-400 rounded">
+            <view class="w-auto h-auto bg-blue-400 rounded px-1.5">
               <text class="text-white font-medium text-xs	  ">{{ scenerySore }}</text>
             </view>
           </view>
