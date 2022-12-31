@@ -15,6 +15,8 @@ export default {
 
     wxUserSave: "/travel/wx/updateUserInfo",
 
+    addFeedBack:"/travel/wx/addFeedBack",
+
     uploadPath: "https://up-z1.qiniup.com",
 
 

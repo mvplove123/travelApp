@@ -308,7 +308,6 @@ export default {
 
   onLoad() {
     this.handleTimeForm(dayjs().format('YYYY-MM-DD'))
-    this.getUserInfo()
     this.getTravelConfig()
   },
 
@@ -644,7 +643,7 @@ export default {
     getLocation(departCity,address){
       this.departCity = departCity
       this.address = address
-      console.log("address",address)
+      this.getUserInfo()
       this.init()
     },
   },

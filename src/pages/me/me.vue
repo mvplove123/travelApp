@@ -36,13 +36,13 @@
       </view>
 
       <view class="mt-2">
-        <u-textarea v-model="value" placeholder="建议与反馈" count confirmType="done"></u-textarea>
-        <u-button text="提交" type="primary" size="small" color="linear-gradient(to right, #16a085, #f4d03f)"></u-button>
+        <u-textarea v-model="feedback" placeholder="建议与反馈" count confirmType="done"></u-textarea>
+        <u-button text="提交" type="primary" size="small" color="linear-gradient(to right, #16a085, #f4d03f)" @click="submitFeedback"></u-button>
       </view>
 
       <view class="bg-white mt-2">
         <u-cell-group>
-          <u-cell icon="info" @click="clickAbout" title="关于旅行"></u-cell>
+          <u-cell icon="info" @click="clickAbout" title="关于虎豆旅行"></u-cell>
         </u-cell-group>
       </view>
       <view class="bg-white" v-if="hasLogin">
@@ -61,36 +61,26 @@
 <script>
 import {mapState, mapMutations} from 'vuex';
 import dayjs from "dayjs";
+import config from "@/common/config";
 
 export default {
   data() {
     return {
       backgroundImage:'https://p1-q.mafengwo.net/s8/M00/E9/5E/wKgBpVYaIiiAaLplAAlJrUawqC426.jpeg?imageMogr2%2Fthumbnail%2F1360x%2Fstrip%2Fquality%2F90',
-
-      value:'',
       show: false,
       userInfo:{
         userName: undefined,
         nickName: '未登录',
         avatarUrl: undefined,
-        totalDays: undefined,
+        totalDays: 0,
         openId: '',
       },
+      feedback:'',
       content: '您还未登录',
     }
   },
   onShow() {
     this.getUserInfo()
-
-    // // 等待登录成功
-    // if(!this.hasLogin) {
-    //   this.show = true;
-    // } else{
-    //   // 关闭提示
-    //   this.show = false;
-    //   console.log("onshow",this.userInfo)
-    //
-    // }
   },
   computed: {
     ...mapState(['hasLogin'])
@@ -102,10 +92,12 @@ export default {
       if(this.hasLogin){
         this.$u.route('/pages/accountInfo/accountInfo')
       }else{
-        this.show = true
+        this.$refs.uToast.show({
+          message: '登录后才能设置哦',
+          type: 'error'
+        });
       }
     },
-
 
     getUserInfo() {
       // 获取用户信息
@@ -121,20 +113,12 @@ export default {
       this.logout();
       this.userInfo={}
       this.userInfo.nickName='未登录'
+      this.userInfo.totalDays=0
       this.$refs.uToast.show({
         message: '退出成功',
         type: 'success',
         duration: 1000,
       });
-      // setTimeout(function() {
-      //   //
-      //   uni.redirectTo({
-      //     url: '/pages/homePage/homePage',
-      //     complete:(res)=>{
-      //       console.log("跳转结果",res)
-      //     }
-      //   })
-      // },1500);
     },
     modelConfirm() {
       uni.redirectTo({
@@ -145,7 +129,7 @@ export default {
     // 跳转至关于
     clickAbout() {
       uni.navigateTo({
-        url: './about/index'
+        url: '../about/about'
       });
     },
     // 点击徽章
@@ -159,7 +143,43 @@ export default {
       this.$refs.uToast.show({
         message: '分享功能即将上线'
       });
-    }
+    },
+
+    // 提交用户反馈
+    async submitFeedback() {
+      if(!this.hasLogin){
+        this.$refs.uToast.show({
+          message: '登录后才能提交反馈',
+          type: 'error'
+        });
+        return
+      }
+
+      let params = {
+        userName: this.userInfo.userName,
+        nickName: this.userInfo.nickName,
+        origin: 4,
+        content:this.feedback,
+      }
+      await this.$http.httpPost(config.addFeedBack,
+          params
+      ).then(res => {
+
+        if (res.success == true) {
+          this.feedback = ''
+          this.$refs.uToast.show({
+            message: '提交成功',
+            type: 'success',
+            duration: 1000,
+          });
+        } else {
+          this.$refs.uToast.show({
+            message: '提交失败',
+            type: 'error'
+          });
+        }
+      })
+    },
   }
 
 }
