@@ -103,9 +103,13 @@ export default {
       // 获取用户信息
       let userInfo = uni.getStorageSync('userInfo')
       this.userInfo.userName = userInfo.userName
-      this.userInfo.nickName = userInfo.nickName
+      if(userInfo.nickName){
+        this.userInfo.nickName = userInfo.nickName
+      }
       this.userInfo.avatarUrl = userInfo.avatarUrl
-      this.userInfo.totalDays = userInfo.totalDays
+      if(userInfo.totalDays){
+        this.userInfo.totalDays = userInfo.totalDays
+      }
       this.userInfo.openId = userInfo.openId
     },
     exit() {

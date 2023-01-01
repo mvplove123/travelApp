@@ -73,7 +73,7 @@ const store = new Vuex.Store({
 		logout(state) {
 			state.hasLogin = false;
 			state.userInfo = {};
-			uni.clearStorageSync('userInfo');
+			uni.removeStorageSync('userInfo');
 		}
 	}
 })
